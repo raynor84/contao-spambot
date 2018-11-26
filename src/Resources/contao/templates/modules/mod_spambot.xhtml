@@ -1,0 +1,18 @@
+<!-- SpamBot::start -->
+<!-- indexer::stop -->
+<?php if ($this->Typ == SpamBot::$Status[SpamBot::SPAM] || $this->Typ == SpamBot::$Status[SpamBot::BLACKL]): ?>
+	<p class="spambot_error">
+		{{iflng::en}}Dear visitor,<br />
+			unfortunately we identified your IP address "<?php echo $this->clientIP; ?>" as beeing suspicious ("<?php echo $this->Typ; ?>").<br />
+			Returned status is "<?php echo $this->Status ?>"<br /> 
+			If you feel this is incorrect, please let us know and we will enable your access to this page immediately.<br />
+			Please apologize for the inconvenience.{{iflng}}
+		{{iflng::de}}Lieber Besucher,<br />
+			ungl&uuml;cklicher Weise wurde ihre IP Adresse "<?php echo $this->clientIP; ?>" als verd&auml;chtig identifiziert ("<?php echo $this->Typ; ?>").<br />
+			Der Status ist "<?php echo $this->Status ?>"<br /> 
+			Wenn sie der Meinung sind, dies sei inkorrekt, dann lassen sie es uns bitte wissen und wir werden ihnen den Zugriff auf diese Seite unverz&uuml;glich erm&ouml;glichen.<br />
+			Bitte entschuldigen sie die Unannehmlichkeit.{{iflng}}
+	</p>
+<?php endif; ?>
+<!-- indexer::continue -->
+<!-- SpamBot::end -->

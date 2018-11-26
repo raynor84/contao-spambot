@@ -1,0 +1,48 @@
+.spambot_clear {
+	padding:2px 0 3px 20px;
+	background-image:url("clear.png");
+	background-position:left center;
+	background-repeat:no-repeat;
+}
+
+.spambot_input {
+	width:100%;
+	margin-right:20px;
+}
+
+.spambot_table {
+	width:100%;
+	padding:0 10px 0 30px;
+}
+
+.spambot_tr_spam, .spambot_tr_blacklist, .spambot_tr_ham, .spambot_tr_whitelist, .spambot_tr_notfound, .spambot_tr_loaded {
+	margin:1px 20px 10px 20px;
+	padding:4px 5px 5px 10px;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+	display:block;
+}
+
+.spambot_tr_spam, .spambot_td_spam, .spambot_tr_blacklist, .spambot_td_blacklist {
+	color:#c55;	
+	background-color:#faeeee;
+}
+
+.spambot_tr_ham, .spambot_td_ham, .spambot_tr_whitelist, .spambot_td_whitelist {
+	color:#8ab858;
+	background-color:#f3f8ee;
+}
+
+.spambot_td_loaded, .spambot_tr_loaded {
+	background-color:#f2f2f2;	
+}
+
+.spambot_tr_notfound, .spambot_td_notfound {
+	color:#5c9ac9;
+	background-color:#eff5fa; 	
+}
+
+.spambot_link {
+	text-decoration:underline;
+}
