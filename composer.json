@@ -9,6 +9,18 @@
             "homepage": "https://github.com/syncgw"
         }
     ],
+    "keywords" : [
+    	"spambot",
+    	"httpbl",
+    	"blacklist",
+    	"whitelist",
+    	"ham",
+    	"spam",
+    	"e-mailbot",
+    	"e-mail",
+    	"contao",
+    	"isotope"
+	],
     "require": {
         "php": ">=5.6.0",
 		"contao/core-bundle":"~4.4",
@@ -29,5 +41,5 @@
     "support": {
         "issues": "https://github.com/syncgw/contao-spambot/issues",
         "source": "https://github.com/syncgw/contao-spambot"
-    }	
+    }
 }
