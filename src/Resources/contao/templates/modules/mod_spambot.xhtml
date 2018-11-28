@@ -1,6 +1,6 @@
 <!-- SpamBot::start -->
 <!-- indexer::stop -->
-<?php if ($this->Typ == SpamBot::$Status[SpamBot::SPAM] || $this->Typ == SpamBot::$Status[SpamBot::BLACKL]): ?>
+<?php if ($this->Typ == syncgw\SpamBotBundle\Module\SpamBot::$Status[syncgw\SpamBotBundle\Module\SpamBot::SPAM] || $this->Typ == syncgw\SpamBotBundle\Module\SpamBot::$Status[syncgw\SpamBotBundle\Module\SpamBot::BLACKL]): ?>
 	<p class="spambot_error">
 		{{iflng::en}}Dear visitor,<br />
 			unfortunately we identified your IP address "<?php echo $this->clientIP; ?>" as beeing suspicious ("<?php echo $this->Typ; ?>").<br />

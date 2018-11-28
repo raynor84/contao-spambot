@@ -1,7 +1,7 @@
 {
     "name": "syncgw/contao-spambot",
     "type": "contao-bundle",
-    "description": "Block access to your Web Site (singe pages or whole Internet presence) for spam robots. ",
+    "description": "Block spam bot access to your Contao web site. ",
     "license": "LGPL-3.0-or-later",
     "authors": [
         {
