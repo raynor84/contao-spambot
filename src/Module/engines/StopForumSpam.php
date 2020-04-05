@@ -3,15 +3,14 @@
 /*
  * sync*gw SpamBot Bundle
  *
- * @copyright  http://syncgw.com, 2013 - 2018
+ * @copyright  http://syncgw.com, 2013 - 2020
  * @author     Florian Daeumling, http://syncgw.com
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
 
 namespace syncgw\SpamBotBundle\Module;
 
-class SpamBotStopForumSpam extends SpamBot
-{
+class SpamBotStopForumSpam extends SpamBot {
     protected $Name = 'StopForumSpam';
     protected $Fields = ['spambot_stopforumspam_score' => 0];
 
@@ -27,8 +26,7 @@ class SpamBotStopForumSpam extends SpamBot
      *
      * @return array (SpamBot::Status, status message)
      **/
-    public function check($typ, $ip, $mail)
-    {
+    public function check($typ, $ip, $mail) {
         $this->ExtInfo = '<fieldset style="padding:3px"><div style="color:blue;">'.
                          'Checking <strong>'.(SpamBot::TYP_IP === $typ ? $ip : $mail).'</strong> <br />'.
                          'Clipping level is <strong>'.$this->spambot_stopforumspam_score.'</strong><br />';
@@ -54,22 +52,20 @@ class SpamBotStopForumSpam extends SpamBot
                           'appears = '.$rc[$key]['appears'].'<br />'.
                           'confidence = '.$rc[$key]['confidence'].'<br /></strong></div></fieldset>';
 
-        if (!$rc['success']) {
+        if (!$rc['success'])
             return [SpamBot::NOTFOUND, sprintf($GLOBALS['TL_LANG']['SpamBot']['generic']['err'], $this->Name, $rc['error'])];
-        }
 
-        if (!$rc[$key]['appears']) {
+        if (!$rc[$key]['appears'])
             return [SpamBot::NOTFOUND, sprintf($GLOBALS['TL_LANG']['SpamBot']['generic']['notfound'], $this->Name)];
-        }
 
         // check confidence level
-        if ($rc[$key]['confidence'] < $this->spambot_stopforumspam_score) {
+        if ($rc[$key]['confidence'] < $this->spambot_stopforumspam_score)
             $typ = SpamBot::HAM;
-        } else {
+        else
             $typ = SpamBot::SPAM;
-        }
 
         return [$typ, sprintf($GLOBALS['TL_LANG']['SpamBot']['StopForumSpam']['stat'], $this->Name,
                                                 $rc[$key]['confidence'], $rc[$key]['frequency'])];
     }
+
 }

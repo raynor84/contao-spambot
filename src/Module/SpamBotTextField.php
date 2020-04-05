@@ -3,7 +3,7 @@
 /*
  * sync*gw SpamBot Bundle
  *
- * @copyright  http://syncgw.com, 2013 - 2018
+ * @copyright  http://syncgw.com, 2013 - 2020
  * @author     Florian Daeumling, http://syncgw.com
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
@@ -12,8 +12,7 @@ namespace syncgw\SpamBotBundle\Module;
 
 use Contao\FormTextField;
 
-class SpamBotTextField extends FormTextField
-{
+class SpamBotTextField extends FormTextField {
     /**
      * Set a parameter
      *
@@ -22,11 +21,10 @@ class SpamBotTextField extends FormTextField
      * @param mixed $strKey
      * @param mixed $varValue
      */
-    public function __set($strKey, $varValue)
-    {
-        if ('rgxp' === $strKey && 'email' === $varValue) {
+    public function __set($strKey, $varValue) {
+        if ('rgxp' === $strKey && 'email' === $varValue)
             $varValue = 'rgxSpamBots';
-        }
         parent::__set($strKey, $varValue);
     }
+
 }

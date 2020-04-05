@@ -3,7 +3,7 @@
 /*
  * sync*gw SpamBot Bundle
  *
- * @copyright  http://syncgw.com, 2013 - 2018
+ * @copyright  http://syncgw.com, 2013 - 2020
  * @author     Florian Daeumling, http://syncgw.com
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
@@ -17,13 +17,12 @@ require $_SERVER["DOCUMENT_ROOT"].'/../system/initialize.php';
 
 use Contao\Frontend;
 
-class SpamBotCall extends Frontend
-{
-    /**
+class SpamBotCall extends Frontend {
+
+	/**
      * Initialize the object (do not remove).
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
         define('BE_USER_LOGGED_IN', false);
         define('FE_USER_LOGGED_IN', false);
@@ -34,8 +33,7 @@ class SpamBotCall extends Frontend
      *
      * @return array (SpamBot::Status, status message)
      */
-    public function run()
-    {
+    public function run() {
         $this->loadLanguageFile('default');
 
         // class/file to call
@@ -51,9 +49,8 @@ class SpamBotCall extends Frontend
         // mail address
         $mail = base64_decode($_GET['Mail'], true);
 
-        if (!$class) {
+        if (!$class)
             return 'Not allowed';
-        }
 
         // include our engine class
         require TL_ROOT.'/vendor/syncgw/contao-spambot/src/Module/engines/'.$class.'.php';
@@ -62,12 +59,12 @@ class SpamBotCall extends Frontend
         $obj = new $class($mod);
         list($stat, $msg) = $obj->check($func, $ip, $mail);
         // append extended information?
-        if ($extinfo && $obj->ExtInfo) {
+        if ($extinfo && $obj->ExtInfo)
             $msg .= $obj->ExtInfo;
-        }
 
         return serialize([$stat, $msg]);
     }
+
 }
 
 $obj = new SpamBotCall();

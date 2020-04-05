@@ -1,4 +1,9 @@
 services:
+    syncgw\SpamBotBundle\Module\SpamBotCron:
+      tags:
+        - { name: contao.cronjob, interval: daily, method: clearCache }
+        - { name: contao.cronjob, interval: hourly, method: loadData }
+    
     _instanceof:
         Contao\CoreBundle\Framework\FrameworkAwareInterface:
             calls:

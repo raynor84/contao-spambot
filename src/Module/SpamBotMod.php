@@ -3,7 +3,7 @@
 /*
  * sync*gw SpamBot Bundle
  *
- * @copyright  http://syncgw.com, 2013 - 2018
+ * @copyright  http://syncgw.com, 2013 - 2020
  * @author     Florian Daeumling, http://syncgw.com
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
@@ -13,8 +13,7 @@ namespace syncgw\SpamBotBundle\Module;
 use Contao\Validator;
 use Contao\Widget;
 
-class SpamBotMod extends SpamBot
-{
+class SpamBotMod extends SpamBot {
     protected $Fields = ['spambot_page' => 0, 'spambot_msg' => 0, 'spambot_mod' => 0,
                                 'spambot_internal_logspam' => 0, 'spambot_internal_logham' => 0, ];
 
@@ -26,14 +25,12 @@ class SpamBotMod extends SpamBot
      *
      * @return string content
      */
-    public function clearTemplate($strContent, $strTemplate)
-    {
+    public function clearTemplate($strContent, $strTemplate) {
         $str = [];
         if ($GLOBALS['SpamBot']['Catch'] & (SpamBot::SPAM | SpamBot::BLACKL) && 'mod_article' === $strTemplate) {
             preg_match('/(?<=<!-- SpamBot::start -->).*(?=<!-- SpamBot::end -->)/s', $strContent, $str);
             // clear flag
             unset($GLOBALS['SpamBot']['Catch']);
-
             return $str[0];
         }
 
@@ -48,18 +45,15 @@ class SpamBotMod extends SpamBot
      *
      * @return string replacement
      */
-    public function replaceInsertTag($strTag)
-    {
+    public function replaceInsertTag($strTag) {
         $parm = explode('::', $strTag);
         // are we responsible?
-        if ('spambot' !== strtolower($parm[0])) {
+        if ('spambot' !== strtolower($parm[0]))
             return false;
-        }
 
         // get information
-        if (!is_array($arr = deserialize(base64_decode($this->Input->cookie('SpamBot'), true)))) {
+        if (!is_array($arr = deserialize(base64_decode($this->Input->cookie('SpamBot'), true))))
             $arr = [];
-        }
 
         return isset($arr[$parm[1]]) ? $arr[$parm[1]] : null;
     }
@@ -73,19 +67,16 @@ class SpamBotMod extends SpamBot
      *
      * @return bool
      */
-    public function checkMail($strRegexp, $email, Widget $obj)
-    {
+    public function checkMail($strRegexp, $email, Widget $obj) {
         global $objPage;
 
         // are we responsible?
-        if ('rgxSpamBots' !== $strRegexp) {
+        if ('rgxSpamBots' !== $strRegexp)
             return false;
-        }
 
         // standard e-mail validation
-        if (!Validator::isEmail($email)) {
+        if (!Validator::isEmail($email))
             $obj->addError($GLOBALS['TL_LANG']['ERR']['email']);
-        }
 
         // check for active module included in this page
         $rc = $this->Db->prepare(
@@ -111,25 +102,21 @@ class SpamBotMod extends SpamBot
                             break;
                         }
                     }
-                    if ($this->modID) {
+                    if ($this->modID)
                         break;
-                    }
                 }
             }
             // not in page and not in layout :-(
-            if (!$this->modID) {
+            if (!$this->modID)
                 return true;
-            }
-        } else {
+        } else
             $this->modID = $rc->id;
-        }
 
         list($ptyp, , ) = self::_doCheck(SpamBot::TYP_MAIL, self::getIP(), $email);
 
         // display user error message
-        if ($ptyp & (SpamBot::SPAM | SpamBot::BLACKL)) {
+        if ($ptyp & (SpamBot::SPAM | SpamBot::BLACKL))
             $obj->addError($GLOBALS['TL_LANG']['SpamBot']['SpamBot']['email']);
-        }
 
         return true;
     }
@@ -142,8 +129,7 @@ class SpamBotMod extends SpamBot
      *
      * @return array (SpamBot::Status, status message, execution time)
      */
-    public function checkIP($ip)
-    {
+    public function checkIP($ip) {
         return self::_doCheck(SpamBot::TYP_IP, $ip, null);
     }
 
@@ -152,21 +138,19 @@ class SpamBotMod extends SpamBot
      *
      * @return string IP
      */
-    public function getIP()
-    {
+    public function getIP() {
         $ip = [];
         foreach (['HTTP_CF_CONNECTING_IP', 'HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED',
                         'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR', ] as $key) {
             if (true === array_key_exists($key, $_SERVER)) {
-                foreach (explode(',', $_SERVER[$key]) as $vip) {
+                foreach (explode(',', $_SERVER[$key]) as $vip)
                     $ip[] = str_replace(' ', '', $vip);
-                }
             }
         }
         // if for some strange reason we don't get an IP we return imemdiately with 0.0.0.0
-        if (empty($ip)) {
+        if (empty($ip))
             $ip = '0.0.0.0';
-        } else {
+        else {
             $ip = array_values(array_unique($ip));
             foreach ($ip as $v) {
                 if (filter_var($v, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
@@ -188,8 +172,7 @@ class SpamBotMod extends SpamBot
      *
      * @return array (SpamBot::Status, status message, execution time)
      */
-    private function _doCheck($func, $ip, $mail)
-    {
+    private function _doCheck($func, $ip, $mail) {
         // return value is undefined
         $rc = null;
 
@@ -199,9 +182,8 @@ class SpamBotMod extends SpamBot
         // check for WHITE and BLACK list?
         if (SpamBot::MOD_FIRST !== $this->spambot_mod) {
             foreach ($en as $v) {
-                if (SpamBot::NOTFOUND === $v[0]) {
+                if (SpamBot::NOTFOUND === $v[0])
                     continue;
-                }
 
                 // check type
                 if ($v[0] & (SpamBot::BLACKL | SpamBot::WHITEL)) {
@@ -214,36 +196,31 @@ class SpamBotMod extends SpamBot
         // check all other returned values
         if (!$rc) {
             foreach ($en as $v) {
-                if (SpamBot::NOTFOUND === $v[0]) {
+                if (SpamBot::NOTFOUND === $v[0])
                     continue;
-                }
 
                 // check modus
                 switch ($this->spambot_mod) {
                 case SpamBot::MOD_FIRST:
-                    if (!($v[0] & SpamBot::NOTFOUND)) {
+                    if (!($v[0] & SpamBot::NOTFOUND))
                         $rc = $v;
-                    }
                     break;
 
                 case SpamBot::MOD_SPAM:
-                    if ($v[0] & SpamBot::SPAM) {
+                    if ($v[0] & SpamBot::SPAM)
                         $rc = $v;
-                    }
                     break;
 
                 case SpamBot::MOD_HAM:
                 default:
-                    if ($v[0] & SpamBot::HAM) {
+                    if ($v[0] & SpamBot::HAM)
                         $rc = $v;
-                    }
                     break;
                 }
 
                 // anything found
-                if ($rc) {
+                if ($rc)
                     break;
-                }
             }
         }
 
@@ -254,16 +231,14 @@ class SpamBotMod extends SpamBot
         }
 
         // convert LOADED
-        if ($rc[0] & SpamBot::LOADED) {
+        if ($rc[0] & SpamBot::LOADED)
             $rc[0] = SpamBot::SPAM;
-        }
 
         // special Intern check
         if (($rc[0] & (SpamBot::WHITEL | SpamBot::BLACKL)) ||
             (($rc[0] & SpamBot::HAM) && !$this->spambot_internal_logham) ||
-            (($rc[0] & SpamBot::SPAM) && !$this->spambot_internal_logspam)) {
+            (($rc[0] & SpamBot::SPAM) && !$this->spambot_internal_logspam))
             return $rc;
-        }
 
         // clean status message
         $rc[1] = strip_tags($rc[1]);
@@ -273,25 +248,24 @@ class SpamBotMod extends SpamBot
         if (SpamBot::TYP_IP === $func) {
             $rec = $this->Db->prepare('SELECT id FROM tl_spambot WHERE module=? AND ip=? AND typ<>?')
                                   ->execute($this->modID, $ip, SpamBot::LOADED);
-            if ($rec->numRows) {
+            if ($rec->numRows)
                 $this->Db->prepare('UPDATE tl_spambot SET module=?, tstamp=?, browser=?, typ=?, status=? WHERE id=?')
                                ->execute($this->modID, $upd, \Environment::get('httpUserAgent'), $rc[0], $rc[1], $rec->id);
-            } else {
+            else
                 $this->Db->prepare('INSERT tl_spambot SET module=?, ip=?, created=?, tstamp=?, browser=?, typ=?, status=?')
                                ->execute($this->modID, $ip, $upd, $upd, \Environment::get('httpUserAgent'), $rc[0], $rc[1]);
-            }
         } else {
             $rec = $this->Db->prepare('SELECT id FROM tl_spambot WHERE module=? AND mail=? AND typ<>?')
                                   ->execute($this->modID, $mail, SpamBot::LOADED);
-            if ($rec->numRows) {
+            if ($rec->numRows)
                 $this->Db->prepare('UPDATE tl_spambot SET module=?, tstamp=?, ip=?, browser=?, typ=?, status=? WHERE id=?')
                                ->execute($this->modID, $upd, self::getIP(), \Environment::get('httpUserAgent'), $rc[0], $rc[1], $rec->id);
-            } else {
+            else
                 $this->Db->prepare('INSERT tl_spambot SET module=?, ip=?, mail=?, created=?, tstamp=?, browser=?, typ=?, status=?')
                                ->execute($this->modID, self::getIP(), $mail, $upd, $upd, \Environment::get('httpUserAgent'), $rc[0], $rc[1]);
-            }
         }
 
         return $rc;
     }
+
 }

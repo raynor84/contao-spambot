@@ -1,45 +1,45 @@
 {
-    "name": "syncgw/contao-spambot",
-    "type": "contao-bundle",
-    "description": "Block spam bot access to your Contao web site. ",
-    "license": "LGPL-3.0-or-later",
-    "authors": [
-        {
-            "name": "Florian Daeumling",
-            "homepage": "https://github.com/syncgw"
-        }
-    ],
-    "keywords" : [
-    	"spambot",
-    	"httpbl",
-    	"blacklist",
-    	"whitelist",
-    	"ham",
-    	"spam",
-    	"e-mailbot",
-    	"e-mail",
-    	"contao",
-    	"isotope"
+	"name" : "syncgw/contao-spambot",
+	"type" : "contao-bundle",
+	"description" : "Block spam bot access to your Contao web site. ",
+	"license" : "GPL-3.0+",
+	"homepage" : "https://github.com/syncgw/contao-isotope_stin",
+	"authors" : [{
+			"name" : "Florian Daeumling",
+			"homepage" : "https://github.com/syncgw"
+		}
 	],
-    "require": {
-        "php": ">=5.6.0",
-		"contao/core-bundle":"~4.4",
-        "symfony/framework-bundle": "^3.3 || ^4.1"
-    },
-    "conflict": {
-        "contao/core": "*",
-        "contao/manager-plugin": "<2.0 || >=3.0"
-    },
-    "extra": {
-        "contao-manager-plugin": "syncgw\\SpamBotBundle\\ContaoManager\\Plugin"
-    },
-    "autoload": {
-        "psr-4": {
-            "syncgw\\SpamBotBundle\\": "src/"
-        }
-    },
-    "support": {
-        "issues": "https://github.com/syncgw/contao-spambot/issues",
-        "source": "https://github.com/syncgw/contao-spambot"
-    }
+	"keywords" : [
+		"spambot",
+		"httpbl",
+		"blacklist",
+		"whitelist",
+		"ham",
+		"spam",
+		"e-mailbot",
+		"e-mail",
+		"contao",
+		"isotope"
+	],
+	"require" : {
+		"php" : ">=7.0",
+		"contao/core-bundle" : ">=4.9.0",
+		"symfony/framework-bundle" : "~5.0"
+	},
+	"conflict" : {
+		"contao/core" : "*",
+		"contao/manager-plugin" : "<2.0 || >=3.0"
+	},
+	"extra" : {
+		"contao-manager-plugin" : "syncgw\\SpamBotBundle\\ContaoManager\\Plugin"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"syncgw\\SpamBotBundle\\" : "src/"
+		}
+	},
+	"support" : {
+		"issues" : "https://github.com/syncgw/contao-spambot/issues",
+		"source" : "https://github.com/syncgw/contao-spambot"
+	}
 }

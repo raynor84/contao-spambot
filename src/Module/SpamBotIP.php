@@ -3,7 +3,7 @@
 /*
  * sync*gw SpamBot Bundle
  *
- * @copyright  http://syncgw.com, 2013 - 2018
+ * @copyright  http://syncgw.com, 2013 - 2020
  * @author     Florian Daeumling, http://syncgw.com
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
@@ -12,27 +12,23 @@ namespace syncgw\SpamBotBundle\Module;
 
 use Contao\Module;
 
-class SpamBotIP extends Module
-{
+class SpamBotIP extends Module {
     protected $strTemplate = 'mod_spambot';
 
-    public function generate()
-    {
+    public function generate() {
         if (TL_MODE === 'BE') {
             $obj = new \Contao\BackendTemplate('be_wildcard');
             $obj->wildcard = '### SPAMBOT IP PROTECTION ###';
             $obj->title = $this->headline;
             $obj->id = $this->id;
             $obj->link = $this->name;
-
             return $obj->parse();
         }
 
         return parent::generate();
     }
 
-    protected function compile()
-    {
+    protected function compile() {
         // perform checking
         $obj = new SpamBotMod($this->id);
 
@@ -41,9 +37,8 @@ class SpamBotIP extends Module
 
         // perform checking
         list($ptyp, $pstat) = $obj->checkIP($ip);
-        if (!($ptyp & (SpamBot::SPAM | SpamBot::BLACKL))) {
+        if (!($ptyp & (SpamBot::SPAM | SpamBot::BLACKL)))
             return;
-        }
 
         // load/save information
         $v = [
@@ -53,9 +48,9 @@ class SpamBotIP extends Module
         ];
         $this->setCookie('SpamBot', base64_encode(serialize($v)), 0);
 
-        if ($obj->spambot_page) {
+        if ($obj->spambot_page)
             $this->redirectToFrontendPage($obj->spambot_page);
-        } else {
+        else {
             // set flag for SpamBot::clearTemplate()
             $GLOBALS['SpamBot']['Catch'] = !$obj->spambot_msg ? $ptyp : null;
             // make data available for template processing
@@ -64,4 +59,5 @@ class SpamBotIP extends Module
             $this->Template->Status = $v['Status'];
         }
     }
+
 }

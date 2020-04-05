@@ -3,15 +3,14 @@
 /*
  * sync*gw SpamBot Bundle
  *
- * @copyright  http://syncgw.com, 2013 - 2018
+ * @copyright  http://syncgw.com, 2013 - 2020
  * @author     Florian Daeumling, http://syncgw.com
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
 
 namespace syncgw\SpamBotBundle\Module;
 
-class SpamBotIntern extends SpamBot
-{
+class SpamBotIntern extends SpamBot {
     protected $Name = 'Intern';
 
     /**
@@ -26,35 +25,30 @@ class SpamBotIntern extends SpamBot
      *
      * @return array (SpamBot::Status, status message)
      */
-    public function check($typ, $ip, $mail)
-    {
+    public function check($typ, $ip, $mail) {
         // check for BlackList and WhiteList entries
         if (SpamBot::TYP_IP === $typ) {
             $rc = $this->Db->prepare('SELECT ip,typ FROM tl_spambot WHERE module=? AND typ & 0x%x')->execute($this->modID, SpamBot::BLACKL | SpamBot::WHITEL);
             while ($rc->next()) {
-                if (self::_matchNW($ip, $rc->ip)) {
+                if (self::_matchNW($ip, $rc->ip))
                     return [$rc->typ, sprintf($GLOBALS['TL_LANG']['SpamBot']['Intern']['ip'], $this->Name, $rc->ip)];
-                }
             }
         } else {
             // check for BlackList and WhiteList entries
             $rc = $this->Db->prepare('SELECT mail,typ FROM tl_spambot WHERE module=? AND typ & 0x%x')->execute($this->modID, SpamBot::BLACKL | SpamBot::WHITEL);
             while ($rc->next()) {
-                if (preg_match('/'.$rc->mail.'/', $mail)) {
+                if (preg_match('/'.$rc->mail.'/', $mail))
                     return [$rc->typ, sprintf($GLOBALS['TL_LANG']['SpamBot']['Intern']['mail'], $this->Name, $rc->mail)];
-                }
             }
         }
 
-        if (SpamBot::TYP_IP === $typ) {
+        if (SpamBot::TYP_IP === $typ)
             $rc = $this->Db->prepare('SELECT typ,status FROM tl_spambot WHERE module=? AND ip=? AND typ<>?')->execute($this->modID, $ip, SpamBot::LOADED);
-        } else {
+        else
             $rc = $this->Db->prepare('SELECT typ,status FROM tl_spambot WHERE module=? AND mail=? AND typ<>?')->execute($this->modID, $mail, SpamBot::LOADED);
-        }
 
-        if ($rc->numRows) {
+        if ($rc->numRows)
             return [$rc->typ, $rc->status ? $rc->status : $this->Name.': Record found'];
-        }
 
         return [SpamBot::NOTFOUND, sprintf($GLOBALS['TL_LANG']['SpamBot']['generic']['notfound'], $this->Name)];
     }
@@ -73,9 +67,9 @@ class SpamBotIntern extends SpamBot
      *
      * @return false=no match; true=matched
      */
-    private function _matchNW($ip, $network)
-    {
+    private function _matchNW($ip, $network) {
         $ip = ip2long($ip);
+
         if (false === ($p = strpos($network, '-'))) {
             $a = explode('/', $network);
             if (isset($a[1])) {
@@ -94,4 +88,5 @@ class SpamBotIntern extends SpamBot
 
         return false;
     }
+
 }

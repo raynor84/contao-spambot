@@ -3,13 +3,10 @@
 /*
  * sync*gw SpamBot Bundle
  *
- * @copyright  http://syncgw.com, 2013 - 2018
+ * @copyright  http://syncgw.com, 2013 - 2020
  * @author     Florian Daeumling, http://syncgw.com
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
-
-$GLOBALS['TL_CRON']['hourly'][]                     = [ 'syncgw\SpamBotBundle\Module\SpamBotCron', 'loadData' ];
-$GLOBALS['TL_CRON']['daily'][]                      = [ 'syncgw\SpamBotBundle\Module\SpamBotCron', 'clearCache' ];
 
 // back end modules
 $GLOBALS['BE_MOD']['accounts']['SpamBot'] = [
