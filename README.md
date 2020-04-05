@@ -73,7 +73,7 @@ Zugriff generell für ausgewählte Länder erlauben.
 * Ändern Sie den Datensatz auf den Typ **Spam**.
 * Rufen sie die Seite nochmals auf und überprüfen sie das veränderte Verhalten.
 
-Viel Spaß bei der Benutzung
+Viel Spaß bei der Benutzung!
 
 **[Spenden](https://www.syncgw.com/donation-de.html)**  **[Contao Forum](https://community.contao.org/de/showthread.php?36800-SpamBot)**
 
