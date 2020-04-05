@@ -72,7 +72,7 @@ class SpamBotCron implements ServiceAnnotationInterface  {
         $mods = [];
 
         // walk through all modules
-        while ($rc->next()) {
+        while (!is_bool($rc) && $rc->next()) {
             foreach (deserialize($rc->spambot_engines) as $name) {
                 if (isset($GLOBALS['SpamBot']['Engines'][$name]['CronJob'])) {
                     if (!isset($mods[$GLOBALS['SpamBot']['Engines'][$name]['CronJob'][0]])) {
