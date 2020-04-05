@@ -13,28 +13,29 @@ namespace syncgw\SpamBotBundle\Module;
 use Psr\Log\LogLevel;
 use Terminal42\ServiceAnnotationBundle\ServiceAnnotationInterface;
 use Contao\System;
-use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Monolog\ContaoContext;
+use Doctrine\DBAL\Connection;
 
 class SpamBotCron implements ServiceAnnotationInterface  {
 
     // database pointer
-    public $Db;
+    private $db;
 
     /**
      * Initialize class
      */
-    public function __construct() {
-        $this->Db = \Contao\Database::getInstance();
+    public function __construct(Connection $connection) {
+		$this->db = $connection;
     }
 
     /**
      * Clear cached data.
      */
     public function clearCache() {
+
         System::loadLanguageFile('default');
 
-        $rc = $this->Db->prepare('SELECT id,name,spambot_engines,spambot_internal_exp from tl_module WHERE type LIKE ?')->execute('SpamBot-%');
+        $rc = $this->db->prepare('SELECT id,name,spambot_engines,spambot_internal_exp from tl_module WHERE type LIKE ?')->execute('SpamBot-%');
         // allow loaded records to survive
         $mods = [0];
 
@@ -45,16 +46,16 @@ class SpamBotCron implements ServiceAnnotationInterface  {
             $mods[] = $rc->id;
             $sql = sprintf('FROM tl_spambot WHERE typ & 0x%x AND tstamp < %s AND module=%s',
                            SpamBot::SPAM | SpamBot::HAM, time() - ($rc->spambot_internal_exp * 86400), $rc->id);
-            $cnt = $this->Db->execute('SELECT id '.$sql);
-            $this->Db->execute('DELETE '.$sql);
+            $cnt = $this->db->execute('SELECT id '.$sql);
+            $this->db->execute('DELETE '.$sql);
         	System::getContainer()->get('monolog.logger.contao')->log(LogLevel::INFO,
         			sprintf($GLOBALS['TL_LANG']['SpamBot']['cron']['rec'], $cnt->numRows, $rc->name),
       				[ 'contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_ERROR ) ] );
         }
         // delete all unassigned records
         $sql = sprintf('FROM tl_spambot WHERE INSTR(\'%s\',module) = 0', implode(',', $mods));
-        $cnt = $this->Db->execute('SELECT id '.$sql);
-        $this->Db->execute('DELETE '.$sql);
+        $cnt = $this->db->execute('SELECT id '.$sql);
+        $this->db->execute('DELETE '.$sql);
         	System::getContainer()->get('monolog.logger.contao')->log(LogLevel::INFO,
         			sprintf($GLOBALS['TL_LANG']['SpamBot']['cron']['mod'], $cnt->numRows),
       				[ 'contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_ERROR ) ] );
@@ -65,8 +66,9 @@ class SpamBotCron implements ServiceAnnotationInterface  {
      */
     public function loadData() {
 
-    	$this->loadLanguageFile('default');
-        $rc = $this->Db->prepare('SELECT id,name,type,spambot_engines from tl_module WHERE type LIKE ?')->execute('SpamBot-%');
+    	System::loadLanguageFile('default');
+
+        $rc = $this->db->prepare('SELECT id,name,type,spambot_engines from tl_module WHERE type LIKE ?')->execute('SpamBot-%');
         $mods = [];
 
         // walk through all modules
