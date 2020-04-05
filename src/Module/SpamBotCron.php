@@ -20,23 +20,19 @@ class SpamBotCron implements ServiceAnnotationInterface  {
 
     // database pointer
     public $Db;
-    // Contao frameowrk
-    private $Fw;
 
     /**
      * Initialize class
      */
-    public function __construct(ContaoFramework $framework) {
+    public function __construct() {
         $this->Db = \Contao\Database::getInstance();
-        $this->Fw = $framework;
     }
 
     /**
      * Clear cached data.
      */
     public function clearCache() {
-		$sys = $this->Fw->getAdapter(System::class);
-        $sys->loadLanguageFile('default');
+        System::loadLanguageFile('default');
 
         $rc = $this->Db->prepare('SELECT id,name,spambot_engines,spambot_internal_exp from tl_module WHERE type LIKE ?')->execute('SpamBot-%');
         // allow loaded records to survive
