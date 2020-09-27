@@ -8,7 +8,7 @@
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
 
-namespace syncgw\SpamBotBundle\Module;
+use syncgw\SpamBotBundle\Module\SpamBot;
 
 class SpamBotSORBS extends SpamBot {
     protected $Name = 'SORBS';

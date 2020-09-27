@@ -8,8 +8,6 @@
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
 
-namespace syncgw\SpamBotBundle\Module;
-
 define('TL_MODE', 'FE');
 define('TL_SCRIPT', 'SpamBot');
 

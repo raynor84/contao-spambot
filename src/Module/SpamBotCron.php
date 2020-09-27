@@ -40,7 +40,7 @@ class SpamBotCron implements ServiceAnnotationInterface  {
         $mods = [0];
 
         // walk through all modules
-        while ($rc->next()) {
+        while ($rc && $rc->next()) {
             if (!in_array('Intern', deserialize($rc->spambot_engines), true))
                 continue;
             $mods[] = $rc->id;

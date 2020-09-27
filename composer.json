@@ -4,7 +4,8 @@
 	"description" : "Block spam bot access to your Contao web site. ",
 	"license" : "GPL-3.0+",
 	"homepage" : "https://github.com/syncgw/contao-isotope_stin",
-	"authors" : [{
+	"authors" : [
+		{
 			"name" : "Florian Daeumling",
 			"homepage" : "https://github.com/syncgw"
 		}
@@ -23,11 +24,9 @@
 	],
 	"require" : {
 		"php" : ">=7.0",
-		"contao/core-bundle" : ">=4.9.0",
-		"symfony/framework-bundle" : "~5.0"
+		"contao/core-bundle" : ">=4.9.0"
 	},
 	"conflict" : {
-		"contao/core" : "*",
 		"contao/manager-plugin" : "<2.0 || >=3.0"
 	},
 	"extra" : {
