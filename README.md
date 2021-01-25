@@ -75,7 +75,12 @@ Zugriff generell für ausgewählte Länder erlauben.
 
 Viel Spaß bei der Benutzung!
 
-**[Spenden](https://www.syncgw.com/donation-de.html)**  **[Contao Forum](https://community.contao.org/de/showthread.php?36800-SpamBot)**
+<a href="https://www.paypal.com/donate?hosted_button_id=RQMP8CWD2Y2XC" target="_blank">
+  <img src="https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donateCC_LG.gif" alt="Donate with PayPal"/>
+</a>
+<a href="https://community.contao.org/de/showthread.php?36800-SpamBot" target="_blank">
+  <img src="https://community.contao.org/de/images/layout/contao_community.svg" alt="Support" width="100" height="50"/>
+</a>
 
 ## <a name="2"></a>2. English
 Block access to your Web Site (singe pages or whole Internet presence) for spam robots. All IP or e-mail addresses are identified as **Spam** (suspicious access) or **Ham** (allowed access) based on **BlackList** or **WhiteList** or provider checks.
@@ -149,4 +154,10 @@ Allow access for selected countries.
 
 Please enjoy!
 
-**[Donation](https://www.syncgw.com/donation-en.html)**  **[Contao Forum](https://community.contao.org/de/showthread.php?36800-SpamBot)**
+<a href="https://www.paypal.com/donate?hosted_button_id=RQMP8CWD2Y2XC" target="_blank">
+  <img src="https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif" alt="Donate with PayPal"/>
+</a>
+<a href="https://community.contao.org/de/showthread.php?36800-SpamBot" target="_blank">
+  <img src="https://community.contao.org/de/images/layout/contao_community.svg" alt="Support" width="100" height="50"/>
+</a>
+
