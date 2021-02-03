@@ -1,32 +1,37 @@
 <?php
+declare(strict_types=1);
 
 /*
  * sync*gw SpamBot Bundle
  *
- * @copyright  http://syncgw.com, 2013 - 2020
- * @author     Florian Daeumling, http://syncgw.com
+ * @copyright  https://syncgw.com, 2013 - 2021
+ * @author     Florian Daeumling, https://syncgw.com
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
 
 use syncgw\SpamBotBundle\Module\SpamBot;
 
-class SpamBotHoneypot extends SpamBot {
+class Honeypot extends SpamBot {
+    /*
+     * @var string
+     */
     protected $Name = 'Honeypot';
-    protected $Fields = ['spambot_honeypot_key' => 0, 'spambot_honeypot_score' => 0];
+    /*
+     * @var array
+     */
+    protected $Fields = [ 'spambot_honeypot_key' => 0, 'spambot_honeypot_score' => 0 ];
 
     /**
-     * Check data.
+     * Check data
      *
-     * @param int type to check
-     * @param string IP address
-     * @param string mail address
-     * @param mixed $typ
-     * @param mixed $ip
-     * @param mixed $mail
+     * @param type to check
+     * @param IP address
+     * @param mail address
      *
      * @return array (SpamBot::Status, status message)
      */
-    public function check($typ, $ip, $mail) {
+    public function check(int $typ, string $ip, string $mail): array  {
+
         $this->ExtInfo = '<fieldset style="padding:3px"><div style="color:blue;">'.
                          'Checking <strong>'.(SpamBot::TYP_IP === $typ ? $ip : $mail).'</strong> <br />'.
                          'Clipping level is <strong>'.$this->spambot_honeypot_score.'</strong><br />';
@@ -34,8 +39,8 @@ class SpamBotHoneypot extends SpamBot {
         // query the DNS Server
         $ip = $this->spambot_honeypot_key.'.'.implode('.', array_reverse(explode('.', $ip))).'.dnsbl.httpbl.org';
         // use raw key
-        $this->Raw = true;
-        if (is_array($rc = parent::check($typ, $ip, null)))
+        $this->Raw = TRUE;
+        if (is_array($rc = parent::check($typ, $ip, '')))
             return $rc;
 
         // we assume one only return code!
@@ -52,7 +57,7 @@ class SpamBotHoneypot extends SpamBot {
             return [SpamBot::HAM, sprintf($GLOBALS['TL_LANG']['SpamBot']['Honeypot']['ham'], $this->Name, $rc[2])];
 
         // format error message
-        $msg = null;
+        $msg = NULL;
         if ($rc[3] & 0x01)
             $msg .= $GLOBALS['TL_LANG']['SpamBot']['Honeypot']['sus'].', ';
         if ($rc[3] & 0x02)
@@ -64,3 +69,5 @@ class SpamBotHoneypot extends SpamBot {
     }
 
 }
+
+?>

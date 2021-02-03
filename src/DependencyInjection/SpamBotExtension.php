@@ -1,10 +1,11 @@
 <?php
+declare(strict_types=1);
 
 /*
  * sync*gw SpamBot Bundle
  *
- * @copyright  http://syncgw.com, 2013 - 2020
- * @author     Florian Daeumling, http://syncgw.com
+ * @copyright  https://syncgw.com, 2013 - 2021
+ * @author     Florian Daeumling, https://syncgw.com
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
 
@@ -16,8 +17,11 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 class SpamBotExtension extends Extension {
-    public function load(array $configs, ContainerBuilder $container) {
+
+    public function load(array $configs, ContainerBuilder $container): void {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }
 }
+
+?>

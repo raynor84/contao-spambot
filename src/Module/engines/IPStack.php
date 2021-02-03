@@ -1,32 +1,37 @@
 <?php
+declare(strict_types=1);
 
 /*
  * sync*gw SpamBot Bundle
  *
- * @copyright  http://syncgw.com, 2013 - 2020
- * @author     Florian Daeumling, http://syncgw.com
+ * @copyright  https://syncgw.com, 2013 - 2021
+ * @author     Florian Daeumling, https://syncgw.com
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
 
 use syncgw\SpamBotBundle\Module\SpamBot;
 
-class SpamBotIPStack extends SpamBot {
+class IPStack extends SpamBot {
+    /*
+     * @var string
+     */
     protected $Name = 'IPStack';
-    protected $Fields = ['spambot_freegeoip_countries' => 1];
+    /*
+     * @var array
+     */
+    protected $Fields = [ 'spambot_freegeoip_countries' => 1 ];
 
     /**
-     * Check data.
+     * Check data
      *
-     * @param int type to check
-     * @param string IP address
-     * @param string mail address
-     * @param mixed $typ
-     * @param mixed $ip
-     * @param mixed $mail
+     * @param type to check
+     * @param IP address
+     * @param mail address
      *
      * @return array (SpamBot::Status, status message)
      */
-    public function check($typ, $ip, $mail) {
+    public function check(int $typ, string $ip, string $mail): array  {
+
         $this->ExtInfo = '<fieldset style="padding:3px"><div style="color:blue;">'.
                          'Checking <strong>'.$ip.'</strong> <br />';
 
@@ -51,3 +56,5 @@ class SpamBotIPStack extends SpamBot {
     }
 
 }
+
+?>

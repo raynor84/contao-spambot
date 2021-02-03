@@ -1,10 +1,11 @@
 <?php
+declare(strict_types=1);
 
 /*
  * sync*gw SpamBot Bundle
  *
- * @copyright  http://syncgw.com, 2013 - 2020
- * @author     Florian Daeumling, http://syncgw.com
+ * @copyright  https://syncgw.com, 2013 - 2021
+ * @author     Florian Daeumling, https://syncgw.com
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
 
@@ -17,7 +18,8 @@ use Contao\CoreBundle\ContaoCoreBundle;
 use syncgw\SpamBotBundle\SpamBotBundle;
 
 class Plugin implements BundlePluginInterface {
-    public function getBundles(ParserInterface $parser) {
+
+    public function getBundles(ParserInterface $parser): BundleConfig {
         return [
             BundleConfig::create(SpamBotBundle::class)
                 ->setLoadAfter([ContaoCoreBundle::class]),
@@ -25,3 +27,5 @@ class Plugin implements BundlePluginInterface {
     }
 
 }
+
+?>

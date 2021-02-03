@@ -1,10 +1,11 @@
 <?php
+declare(strict_types=1);
 
 /*
  * sync*gw SpamBot Bundle
  *
- * @copyright  http://syncgw.com, 2013 - 2020
- * @author     Florian Daeumling, http://syncgw.com
+ * @copyright  https://syncgw.com, 2013 - 2021
+ * @author     Florian Daeumling, https://syncgw.com
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
 
@@ -14,18 +15,23 @@ use Contao\Validator;
 use Contao\Widget;
 
 class SpamBotMod extends SpamBot {
+
+    /*
+     * @array
+     */
     protected $Fields = ['spambot_page' => 0, 'spambot_msg' => 0, 'spambot_mod' => 0,
-                                'spambot_internal_logspam' => 0, 'spambot_internal_logham' => 0, ];
+                          'spambot_internal_logspam' => 0, 'spambot_internal_logham' => 0, ];
 
     /**
      * Wipe everything from template except our error message - called during FE template processing
      *
-     * @param string content
-     * @param string template name
+     * @param  content
+     * @param  template name
      *
      * @return string content
      */
-    public function clearTemplate($strContent, $strTemplate) {
+    public function clearTemplate(string $strContent, string $strTemplate): string {
+
         $str = [];
         if ($GLOBALS['SpamBot']['Catch'] & (SpamBot::SPAM | SpamBot::BLACKL) && 'mod_article' === $strTemplate) {
             preg_match('/(?<=<!-- SpamBot::start -->).*(?=<!-- SpamBot::end -->)/s', $strContent, $str);
@@ -40,39 +46,40 @@ class SpamBotMod extends SpamBot {
     /**
      * Replace insert tags - called during processing of insert tags
      *
-     * @param string insert tag
-     * @param mixed $strTag
+     * @param  insert tag
+     * @param  $strTag
      *
      * @return string replacement
      */
-    public function replaceInsertTag($strTag) {
+    public function replaceInsertTag(string $strTag): string {
+
         $parm = explode('::', $strTag);
         // are we responsible?
         if ('spambot' !== strtolower($parm[0]))
-            return false;
+            return FALSE;
 
         // get information
-        if (!is_array($arr = deserialize(base64_decode($this->Input->cookie('SpamBot'), true))))
+        if (!is_array($arr = deserialize(base64_decode($this->Input->cookie('SpamBot'), TRUE))))
             $arr = [];
 
-        return isset($arr[$parm[1]]) ? $arr[$parm[1]] : null;
+        return isset($arr[$parm[1]]) ? $arr[$parm[1]] : NULL;
     }
 
     /**
      * Check special regular expression - called during processing of textfields in any forms
      *
-     * @param string rgxp name
-     * @param string e-mail
-     * @param Widget $obj
+     * @param rgxp name
+     * @param e-mail
+     * @param $obj
      *
      * @return bool
      */
-    public function checkMail($strRegexp, $email, Widget $obj) {
+    public function checkMail(string $strRegexp, string $email, Widget $obj): bool {
         global $objPage;
 
         // are we responsible?
         if ('rgxSpamBots' !== $strRegexp)
-            return false;
+            return FALSE;
 
         // standard e-mail validation
         if (!Validator::isEmail($email))
@@ -108,7 +115,7 @@ class SpamBotMod extends SpamBot {
             }
             // not in page and not in layout :-(
             if (!$this->modID)
-                return true;
+                return TRUE;
         } else
             $this->modID = $rc->id;
 
@@ -118,31 +125,31 @@ class SpamBotMod extends SpamBot {
         if ($ptyp & (SpamBot::SPAM | SpamBot::BLACKL))
             $obj->addError($GLOBALS['TL_LANG']['SpamBot']['SpamBot']['email']);
 
-        return true;
+        return TRUE;
     }
 
     /**
      * Check IP address - called by ModuleSpamBotIP
      *
-     * @param string client IP
-     * @param mixed $ip
+     * @param client IP
      *
      * @return array (SpamBot::Status, status message, execution time)
      */
-    public function checkIP($ip) {
-        return self::_doCheck(SpamBot::TYP_IP, $ip, null);
+    public function checkIP(string $ip): array {
+        return self::_doCheck(SpamBot::TYP_IP, $ip, '');
     }
 
     /**
      * Get IP address
      *
-     * @return string IP
+     * @return string
      */
-    public function getIP() {
+    public function getIP(): string {
+
         $ip = [];
         foreach (['HTTP_CF_CONNECTING_IP', 'HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED',
                         'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR', ] as $key) {
-            if (true === array_key_exists($key, $_SERVER)) {
+            if (TRUE === array_key_exists($key, $_SERVER)) {
                 foreach (explode(',', $_SERVER[$key]) as $vip)
                     $ip[] = str_replace(' ', '', $vip);
             }
@@ -166,18 +173,19 @@ class SpamBotMod extends SpamBot {
     /**
      * Perform check
      *
-     * @param int function to call
-     * @param string IP address
-     * @param string email address
+     * @param function to call
+     * @param IP address
+     * @param email address
      *
      * @return array (SpamBot::Status, status message, execution time)
      */
-    private function _doCheck($func, $ip, $mail) {
+    private function _doCheck(int $func, string $ip, string $mail): array {
+
         // return value is undefined
-        $rc = null;
+        $rc = NULL;
 
         // check all engines
-        $en = deserialize(parent::callMods($func, $ip, $mail, $this->spambot_mod));
+        $en = deserialize(parent::callMods($func, $ip, $mail, intval($this->spambot_mod)));
 
         // check for WHITE and BLACK list?
         if (SpamBot::MOD_FIRST !== $this->spambot_mod) {
@@ -269,3 +277,5 @@ class SpamBotMod extends SpamBot {
     }
 
 }
+
+?>

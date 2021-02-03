@@ -1,32 +1,36 @@
 <?php
+declare(strict_types=1);
 
 /*
  * sync*gw SpamBot Bundle
  *
- * @copyright  http://syncgw.com, 2013 - 2020
- * @author     Florian Daeumling, http://syncgw.com
+ * @copyright  https://syncgw.com, 2013 - 2021
+ * @author     Florian Daeumling, https://syncgw.com
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
 
 use syncgw\SpamBotBundle\Module\SpamBot;
 
-class SpamBotIntern extends SpamBot {
+class Intern extends SpamBot {
+
+    /*
+     * @var string
+     */
     protected $Name = 'Intern';
 
     /**
-     * Check data.
+     * Check data
      *
-     * @param int type to check
-     * @param string IP address
-     * @param string mail address
-     * @param mixed $typ
-     * @param mixed $ip
-     * @param mixed $mail
+     * @param type to check
+     * @param IP address
+     * @param mail address
      *
      * @return array (SpamBot::Status, status message)
      */
-    public function check($typ, $ip, $mail) {
+    public function check(int $typ, string $ip, string $mail): array  {
+
         // check for BlackList and WhiteList entries
+        // to test backlist, add netmask 127.0.0.1/32 with type blacklist
         if (SpamBot::TYP_IP === $typ) {
             $rc = $this->Db->prepare('SELECT ip,typ FROM tl_spambot WHERE module=? AND typ & 0x%x')->execute($this->modID, SpamBot::BLACKL | SpamBot::WHITEL);
             while ($rc->next()) {
@@ -60,33 +64,28 @@ class SpamBotIntern extends SpamBot {
      * ip-ip (192.168.111.100-192.168.1111.103)
      * ip/mask (192.168.1.0/24)
      *
-     * @param string client IP
-     * @param string network mask
-     * @param mixed $ip
-     * @param mixed $network
+     * @param client IP
+     * @param network mask
      *
-     * @return false=no match; true=matched
+     * @return FALSE=no match; TRUE=matched
      */
-    private function _matchNW($ip, $network) {
+    private function _matchNW(string $ip, string $network): bool {
         $ip = ip2long($ip);
 
-        if (false === ($p = strpos($network, '-'))) {
-            $a = explode('/', $network);
-            if (isset($a[1])) {
-                $nwl = ip2long($a[0]);
-                $x = ip2long($a[1]);
-                $m = long2ip($x) === $a[1] ? $x : (0xffffffff << (32 - $a[1]));
-
-                return ($ip & $a[0]) === ($nwl & $m);
-            }
+        if (($p = strpos($network, '-')) === FALSE) {
+            list($subnet, $mask) = explode('/', $network);
+            if (($ip & ~((1 << (32 - $mask)) - 1) ) == ip2long($subnet))
+                return TRUE;
         } else {
             $from = ip2long(substr($network, 0, $p));
-            $to = ip2long(substr($network, $p + 1));
+            $to   = ip2long(substr($network, $p + 1));
 
             return $ip >= $from && $ip <= $to;
         }
 
-        return false;
+        return FALSE;
     }
 
 }
+
+?>

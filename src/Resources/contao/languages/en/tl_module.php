@@ -3,8 +3,8 @@
 /*
  * sync*gw SpamBot Bundle
  *
- * @copyright  http://syncgw.com, 2013 - 2020
- * @author     Florian Daeumling, http://syncgw.com
+ * @copyright  https://syncgw.com, 2013 - 2021
+ * @author     Florian Daeumling, https://syncgw.com
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
 
@@ -18,9 +18,9 @@ $GLOBALS['TL_LANG']['tl_module']['spambot_engines'] = [' ',
 $GLOBALS['TL_LANG']['tl_module']['spambot_mod'] = ['Optimization',
          'SpamBot use parallel checking for all selected provider above. If there are more than one provider selected '.
          'you may specify how checking is opimized:<br>'.
-         '<strong>Speed</strong> - First result from any provider is selected.<br>'.
-         '<strong>Worst</strong> - First "Spam" or "BlackList" from any provider in list.<br>'.
-         '<strong>Best</strong>  - First "Ham" or "WhiteList" from any provider in list.', ];
+         '&raquo;Speed&laquo; - First result from any provider is selected.<br>'.
+         '&raquo;Worst&laquo; - First "Spam" or "BlackList" from any provider in list.<br>'.
+         '&raquo;Best&laquo;  - First "Ham" or "WhiteList" from any provider in list.', ];
 $GLOBALS['TL_LANG']['tl_module']['spambot_mod_first'] = 'Speed';
 $GLOBALS['TL_LANG']['tl_module']['spambot_mod_spam'] = 'Worst';
 $GLOBALS['TL_LANG']['tl_module']['spambot_mod_ham'] = 'Best';
@@ -33,7 +33,7 @@ $GLOBALS['TL_LANG']['tl_module']['spambot_page'] = ['Redirection page',
 $GLOBALS['TL_LANG']['tl_module']['spambot_msg'] = ['Put message additionally on page',
          'If you do not specify a redirection page, then SpamBot shows a error message. '.
          'If this option is not active, then page content except SpamBot message is wiped out; '.
-         'if this option is active, then SpamBot message is put on page <strong>additionally</strong>.', ];
+         'if this option is active, then SpamBot message is put on page &raquo;additionally&laquo;.', ];
 
 // Intern
 $GLOBALS['TL_LANG']['tl_module']['spambot_internal'] = 'Internal configuration';
@@ -112,3 +112,5 @@ $GLOBALS['TL_LANG']['tl_module']['spambot_fspamlist_count'] = ['Threshold',
 $GLOBALS['TL_LANG']['tl_module']['spambot_ipstack'] = 'IPStack configuration';
 $GLOBALS['TL_LANG']['tl_module']['spambot_ipstack_countries'] = ['Whitelist countries',
          'Select countries from which visitors IP address is auto.flagged as "Ham".', ];
+
+?>

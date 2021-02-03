@@ -1,10 +1,11 @@
 <?php
+declare(strict_types=1);
 
 /*
  * sync*gw SpamBot Bundle
  *
- * @copyright  http://syncgw.com, 2013 - 2020
- * @author     Florian Daeumling, http://syncgw.com
+ * @copyright  https://syncgw.com, 2013 - 2021
+ * @author     Florian Daeumling, https://syncgw.com
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
 
@@ -16,32 +17,35 @@ use Contao\System;
 class SpamBot extends System {
     // modes
     const MOD_FIRST = 1;
-    const MOD_SPAM = 2;
-    const MOD_HAM = 3;
+    const MOD_SPAM  = 2;
+    const MOD_HAM   = 3;
 
     // module type
-    const TYP_IP = 1;
-    const TYP_MAIL = 2;
+    const TYP_IP    = 1;
+    const TYP_MAIL  = 2;
 
     // spam types
-    const NOTFOUND = 0x01;
-    const SPAM = 0x02;
-    const HAM = 0x04;
-    const WHITEL = 0x08;
-    const BLACKL = 0x10;
-    const LOADED = 0x20;
+    const NOTFOUND  = 0x01;
+    const SPAM      = 0x02;
+    const HAM       = 0x04;
+    const WHITEL    = 0x08;
+    const BLACKL    = 0x10;
+    const LOADED    = 0x20;
 
     // text translation
     public static $Status = [
-        self::NOTFOUND => 'NotFound',
-        self::SPAM => 'Spam',
-        self::HAM => 'Ham',
-        self::WHITEL => 'WhiteList',
-        self::BLACKL => 'BlackList',
-        self::LOADED => 'Loaded',
+        self::NOTFOUND  => 'NotFound',
+        self::SPAM      => 'Spam',
+        self::HAM       => 'Ham',
+        self::WHITEL    => 'WhiteList',
+        self::BLACKL    => 'BlackList',
+        self::LOADED    => 'Loaded',
     ];
 
-    // module ID
+    /*
+     * module ID
+     * @var int
+     */
     public $modID;
     // extended information
     public $ExtInfo;
@@ -52,20 +56,22 @@ class SpamBot extends System {
     // database pointer
     public $Db;
 
-    // internal cache
+    /*
+     * internal cache
+     * @var array
+     */
     protected $arrData = [];
     // use IP as is
-    protected $Raw = false;
+    protected $Raw = FALSE;
     // HTTP buffer
     protected $Buffer = [];
 
     /**
      * Initialize class
      *
-     * @param int module id
-     * @param mixed $modID
+     * @param module id
      */
-    public function __construct($modID = 0)     {
+    public function __construct(int $modID = 0) {
         parent::__construct();
         $this->Db = \Contao\Database::getInstance();
         $this->modID = $modID;
@@ -73,14 +79,13 @@ class SpamBot extends System {
 
     /**
      * Load variables
-     *
-     * @param string $strKey
      */
     public function __get($strKey) {
+
         if (!isset($this->arrData[$strKey])) {
             // record data already loaded?
-            if (null === $this->Fields)
-                return null;
+            if (NULL === $this->Fields)
+                return NULL;
 
             $rc = $this->Db->prepare('SELECT '.implode(',', array_keys($this->Fields)).' from tl_module WHERE id=?')->execute($this->modID);
             foreach ($this->Fields as $k => $v) {
@@ -91,7 +96,7 @@ class SpamBot extends System {
                 } else
                     $this->arrData[$k] = $rc->$k;
             }
-            $this->Fields = null;
+            $this->Fields = NULL;
         }
 
         return $this->arrData[$strKey];
@@ -99,32 +104,24 @@ class SpamBot extends System {
 
     /**
      * Save variable
-     *
-     * @param string $strKey
-     * @param mixed  $varValue
      */
     public function __set($strKey, $varValue)  {
         $this->arrData[$strKey] = $varValue;
     }
 
-
     /**
      * Perform parallel checking
      *
-     * @param int function to call
-     * @param string IP address
-     * @param string mail address
-     * @param int call mod
-     * @param bool 1=Execution time; 2=Additional info
-     * @param mixed $func
-     * @param mixed $ip
-     * @param mixed $mail
-     * @param mixed $mod
-     * @param mixed $info
+     * @param function to call
+     * @param IP address
+     * @param mail address
+     * @param call mod
+     * @param 1=Execution time; 2=Additional info
      *
      * @return array (SpamBot::Status, status message, execution time)
      */
-    public function callMods($func, $ip, $mail, $mod = self::MOD_SPAM, $info = 0) {
+    public function callMods(int $func, string $ip, string $mail, int $mod = self::MOD_SPAM, int $info = 0): array {
+
         // get configured engines
         $conf = $this->Db->prepare('SELECT spambot_engines FROM tl_module WHERE id=?')->execute($this->modID);
         if (!is_array($conf = deserialize($conf->spambot_engines)))
@@ -143,14 +140,14 @@ class SpamBot extends System {
         // call all engines in parallel
         foreach ($conf as $name) {
             if ($info)
-                $start[$name] = microtime(true);
-            $rc[$name] = null;
-            // var_dump('/bundles/spambot/SpamBotCall.php'.'?Mod='.$this->modID.'&Class='.$name.'&Func='.$func.
-            //         '&IP='.base64_encode($ip).'&Mail='.base64_encode($mail).(2 === $info ? '&ExtInfo=1' : null));
+                $start[$name] = microtime(TRUE);
+            $rc[$name] = NULL;
+            // var_dump(Environment::get('httpHost').'/bundles/spambot/SpamBotCall.php'.'?Mod='.$this->modID.'&Class='.$name.'&Func='.$func.
+            //        '&IP='.base64_encode($ip).'&Mail='.base64_encode($mail).'&ExtInfo='.(2 === $info ? '1' : '0'));
             if (!($hd[$name] = self::openHTTP(Environment::get('httpHost'),
                                               '/bundles/spambot/SpamBotCall.php'.
                                               '?Mod='.$this->modID.'&Class='.$name.'&Func='.$func.
-                                              '&IP='.base64_encode($ip).'&Mail='.base64_encode($mail).(2 === $info ? '&ExtInfo=1' : null)))) {
+                                              '&IP='.base64_encode($ip).'&Mail='.base64_encode($mail).'&ExtInfo='.(2 === $info ? '1' : '0')))) {
                 $rc[$name] = [self::NOTFOUND, $name.': '.$this->ErrMsg];
             } else
                 $active++;
@@ -165,14 +162,14 @@ class SpamBot extends System {
                 // get response
                 $r = self::readHTTP($hd[$name]);
                 if ($info)
-                    $end[$name] = microtime(true);
+                    $end[$name] = microtime(TRUE);
                 // validate return value
-                if (false === $r) {
+                if (FALSE === $r) {
                     // simualte not found on error
                     $rc[$name] = [self::NOTFOUND, $name.': '.$this->ErrMsg, 0];
                     fclose($hd[$name]);
-                    $hd[$name] = null;
-                    $r = null;
+                    $hd[$name] = NULL;
+                    $r = NULL;
                 }
                 // any valid response
                 if (!strlen($r))
@@ -192,7 +189,7 @@ class SpamBot extends System {
                 }
 
                 // build return value
-                if (false === ($a = unserialize($r)))
+                if (FALSE === ($a = unserialize($r)))
                     $rc[$name] = [self::NOTFOUND, $name.': '.$r, 0];
                 else {
                     $rc[$name] = $a;
@@ -216,23 +213,21 @@ class SpamBot extends System {
     /**
      * Default check data
      *
-     * @param int typ to check
-     * @param string IP address
-     * @param string mail address
-     * @param mixed $typ
-     * @param mixed $ip
-     * @param mixed $mail
+     * @param typ to check
+     * @param IP address
+     * @param mail address
      *
-     * @return array (SpamBot::Status, status message) or received status codes (raw=true)
+     * @return array (SpamBot::Status, status message) or received status codes (raw=TRUE)
      */
-    public function check($typ, $ip, $mail) {
+    public function check(int $typ, string $ip, string $mail): array {
+
         if (self::TYP_MAIL === $typ)
             return [self::NOTFOUND, sprintf($GLOBALS['TL_LANG']['SpamBot']['SpamBot']['notfound'], $this->Name)];
 
         // build query
         $chk = $this->Raw ? $ip : implode('.', array_reverse(explode('.', $ip))).$GLOBALS['SpamBot']['Engines'][$this->Name]['DNSBL'];
         $rc = [];
-        $ext = false;
+        $ext = FALSE;
         if (!$this->Raw)
             $this->ExtInfo = '<fieldset style="padding:3px"><div style="color:blue;">'.
                              'Checking <strong>'.(self::TYP_IP === $typ ? $ip : $mail).'</strong> <br />';
@@ -244,7 +239,7 @@ class SpamBot extends System {
                         $rc[] = $s['ip'];
                         $this->ExtInfo .= 'Status received is <strong>'.$s['ip'].'</strong><br />';
                     } else {
-                        $ext = true;
+                        $ext = TRUE;
                         if (isset($s['txt']))
                             $this->ExtInfo .= 'TXT record is <strong>'.$s['txt'].'</strong><br />';
                     }
@@ -279,7 +274,7 @@ class SpamBot extends System {
         // check for Spam
         foreach ($rc as $stat) {
             foreach ($codes as $k => $v) {
-                if (!in_array($k, $conf, true))
+                if (!in_array($k, $conf, TRUE))
                     continue;
                 // wild card?
                 if ($p = strpos($k, '*')) {
@@ -293,7 +288,7 @@ class SpamBot extends System {
         // check for Ham
         foreach ($rc as $stat) {
             foreach ($codes as $k => $v) {
-                if (in_array($k, $conf, true))
+                if (in_array($k, $conf, TRUE))
                     continue;
                 // wild card?
                 if ($p = strpos($k, '*')) {
@@ -309,31 +304,31 @@ class SpamBot extends System {
         return [self::NOTFOUND, sprintf($GLOBALS['TL_LANG']['SpamBot']['generic']['unsup'], $this->Name, $rc)];
     }
 
+
     /**
      * Open connection to host
      *
-     * @param string host name
-     * @param string URI
-     * @param int timeout
-     * @param mixed $host
-     * @param mixed $uri
-     * @param mixed $timeout
+     * @param host name
+     * @param URI
+     * @param timeout
      *
      * @return mixed $pointer
      */
-    public function openHTTP($host, $uri, $timeout = 10) {
-        // prepare request (no fopen() usage because "allow_url_fopen=false" may be set in PHP.INI)
+    public function openHTTP(string $host, string $uri, int $timeout = 10) {
+
+        // prepare request (no fopen() usage because "allow_url_fopen=FALSE" may be set in PHP.INI)
         $req = 'GET '.$uri." HTTP/1.0\r\nHost: ".$host."\r\n\r\n";
-        $sock = 80 != $_SERVER['SERVER_PORT'] ? 'ssl://' : null;
-        $err = null;
-        if (($fp = fsockopen($sock.$host, $_SERVER['SERVER_PORT'], $err, $this->ErrMsg, 10))) {
+        $sock = 80 != $_SERVER['SERVER_PORT'] ? 'ssl://' : NULL;
+        $err = NULL;
+
+        if (($fp = fsockopen($sock.$host, intval($_SERVER['SERVER_PORT']), $err, $this->ErrMsg, 10))) {
             fwrite($fp, $req);
             stream_set_timeout($fp, $timeout);
             $this->Header[(int) ($fp)] = [];
-            $this->Buffer[(int) ($fp)] = null;
-            if (($this->Buffer[(int) ($fp)] = self::readHTTP($fp)) === false) {
+            $this->Buffer[(int) ($fp)] = NULL;
+            if (($this->Buffer[(int) ($fp)] = self::readHTTP($fp)) === FALSE) {
                 fclose($fp);
-                return false;
+                return FALSE;
             }
         } else
             $this->ErrMsg = '['.$err.'] '.$this->ErrMsg;
@@ -341,31 +336,32 @@ class SpamBot extends System {
         return $fp;
     }
 
+
     /**
      * Read data
      *
      * @param file pointer
-     * @param mixed $fp
      *
-     * @return false on error; else string
+     * @return FALSE on error; else string
      */
     public function readHTTP($fp) {
+
         if (!is_resource($fp) || !$fp) {
             $this->ErrMsg = 'Connection to "'.$this->Name.'" is not a resource';
-            return false;
+            return FALSE;
         }
         if ($this->Buffer[(int) ($fp)]) {
             $wrk = $this->Buffer[(int) ($fp)];
-            $this->Buffer[(int) ($fp)] = null;
+            $this->Buffer[(int) ($fp)] = NULL;
             return $wrk;
         }
-        if (false === ($wrk = fread($fp, 8192))) {
+        if (FALSE === ($wrk = fread($fp, 8192))) {
             $info = stream_get_meta_data($fp);
             if ($info['timed_out'])
                 $this->ErrMsg = 'Connection to "'.$this->Name.'" timed out ('.$info['timed_out'].' sec.)';
             else
                 $this->ErrMsg = 'Unspecific connection error to "'.$this->Name.'"';
-            return false;
+            return FALSE;
         }
 
         if (is_array($this->Header[(int) ($fp)]))
@@ -377,11 +373,11 @@ class SpamBot extends System {
             $this->Header[(int) ($fp)] = explode("\r\n", substr($wrk, 0, $pos = strpos($wrk, "\r\n\r\n")));
             $wrk = substr($wrk, $pos + 4);
             if (!$wrk)
-                $wrk = null;
+                $wrk = NULL;
             // we use this approach to get "HTTP/1.0 200 OK" as well as "HTTP/1.1 200 OK"
-            if (count($this->Header[(int) ($fp)]) && false === strpos($this->Header[(int) ($fp)][0], '200 OK')) {
+            if (count($this->Header[(int) ($fp)]) && FALSE === strpos($this->Header[(int) ($fp)][0], '200 OK')) {
                 $this->ErrMsg = $this->Header[(int) ($fp)][0];
-                return false;
+                return FALSE;
             }
         }
 
@@ -389,3 +385,5 @@ class SpamBot extends System {
     }
 
 }
+
+?>

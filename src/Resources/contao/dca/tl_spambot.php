@@ -1,10 +1,11 @@
 <?php
+declare(strict_types=1);
 
 /*
  * sync*gw SpamBot Bundle
  *
- * @copyright  http://syncgw.com, 2013 - 2020
- * @author     Florian Daeumling, http://syncgw.com
+ * @copyright  https://syncgw.com, 2013 - 2021
+ * @author     Florian Daeumling, https://syncgw.com
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
 
@@ -40,7 +41,7 @@ $GLOBALS['TL_DCA']['tl_spambot'] = [
         ],
         'label' => [
             'fields'                => ['ip', 'mail', 'tstamp', 'created', 'typ', 'status'],
-            'showColumns'           => true,
+            'showColumns'           => TRUE,
             'label_callback'        => [ 'tl_spambot', 'mkLabel' ],
         ],
         'global_operations' => [
@@ -54,7 +55,7 @@ $GLOBALS['TL_DCA']['tl_spambot'] = [
                 'label'             => &$GLOBALS['TL_LANG']['tl_spambot']['clear'],
                 'href'              => 'key=clearTab',
                 'class'             => 'spambot_clear',
-                'attributes'        => 'onclick="if(!confirm(\''.$GLOBALS['TL_LANG']['tl_spambot']['confirm'].'\'))return false;Backend.getScrollOffset()" accesskey="c"',
+                'attributes'        => 'onclick="if(!confirm(\''.$GLOBALS['TL_LANG']['tl_spambot']['confirm'].'\'))return FALSE;Backend.getScrollOffset()" accesskey="c"',
             ],
         ],
         'operations' => [
@@ -72,7 +73,7 @@ $GLOBALS['TL_DCA']['tl_spambot'] = [
                 'label'             => &$GLOBALS['TL_LANG']['tl_spambot']['delete'],
                 'href'              => 'act=delete',
                 'icon'              => 'delete.svg',
-                'attributes'        => 'onclick="if(!confirm(\''.$GLOBALS['TL_LANG']['MSC']['deleteConfirm'].'\'))return false;Backend.getScrollOffset()"',
+                'attributes'        => 'onclick="if(!confirm(\''.$GLOBALS['TL_LANG']['MSC']['deleteConfirm'].'\'))return FALSE;Backend.getScrollOffset()"',
             ],
             'show' => [
                 'attributes'        => 'style= "display:none;"',
@@ -92,10 +93,10 @@ $GLOBALS['TL_DCA']['tl_spambot'] = [
         ],
         'module' => [
             'label'             => &$GLOBALS['TL_LANG']['tl_spambot']['module'],
-            'filter'            => true,
+            'filter'            => TRUE,
             'inputType'         => 'select',
             'options'           => [],
-            'eval'              => [ 'submitOnChange' => true ],
+            'eval'              => [ 'submitOnChange' => TRUE ],
             'sql'               => "int(10) unsigned NOT NULL default '0'",
         ],
         'hidden' => [
@@ -103,50 +104,50 @@ $GLOBALS['TL_DCA']['tl_spambot'] = [
         ],
         'ip' => [
             'label'             => &$GLOBALS['TL_LANG']['tl_spambot']['ip'],
-            'search'            => true,
-            'sorting'           => true,
+            'search'            => TRUE,
+            'sorting'           => TRUE,
             'inputType'         => 'text',
             'default'           => ' ',
-            'eval'              => [ 'maxlength' => 40, 'nospace' => true, 'decodeEntities' => true, 'tl_class' => 'w50' ],
+            'eval'              => [ 'maxlength' => 40, 'nospace' => TRUE, 'decodeEntities' => TRUE, 'tl_class' => 'w50' ],
             'sql'               => "varchar(40) NULL",
         ],
         'mail' => [
             'label'             => &$GLOBALS['TL_LANG']['tl_spambot']['mail'],
-            'search'            => true,
-            'sorting'           => true,
+            'search'            => TRUE,
+            'sorting'           => TRUE,
             'inputType'         => 'text',
             'default'           => ' ',
-            'eval'              => [ 'maxlength' => 254, 'nospace' => true, 'decodeEntities' => true, 'tl_class' => 'w50' ],
+            'eval'              => [ 'maxlength' => 254, 'nospace' => TRUE, 'decodeEntities' => TRUE, 'tl_class' => 'w50' ],
             'sql'               => "varchar(255) NULL",
         ],
         'typ' => [
             'label'             => &$GLOBALS['TL_LANG']['tl_spambot']['typ'],
-            'filter'            => true,
-            'sorting'           => true,
+            'filter'            => TRUE,
+            'sorting'           => TRUE,
             'inputType'         => 'select',
             'options'           => SpamBot::$Status,
             'default'           => SpamBot::NOTFOUND,
-            'eval'              => [ 'mandatory' => true, 'tl_class' => 'clr' ],
+            'eval'              => [ 'mandatory' => TRUE, 'tl_class' => 'clr' ],
             'options_callback'  => [ 'tl_spambot', 'getTypes' ],
             'sql'               => "tinyint(1) NOT NULL default '0'",
         ],
         'created' => [
             'label'             => &$GLOBALS['TL_LANG']['tl_spambot']['created'],
-            'filter'            => true,
-            'sorting'           => true,
+            'filter'            => TRUE,
+            'sorting'           => TRUE,
             'inputType'         => 'text',
             'flag'              => 6,
-            'eval'              => [ 'mandatory' => true, 'datepicker' => true, 'rgxp' => 'datim', 'tl_class' => 'w50' ],
+            'eval'              => [ 'mandatory' => TRUE, 'datepicker' => TRUE, 'rgxp' => 'datim', 'tl_class' => 'w50' ],
             'load_callback'     => [[ 'tl_spambot', 'getCreate' ]],
             'sql'               => "int(10) unsigned NOT NULL default '0'",
         ],
         'tstamp' => [
             'label'             => &$GLOBALS['TL_LANG']['tl_spambot']['tstamp'],
-            'filter'            => true,
-            'sorting'           => true,
+            'filter'            => TRUE,
+            'sorting'           => TRUE,
             'inputType'         => 'text',
             'flag'              => 6,
-            'eval'              => [ 'mandatory' => true, 'datepicker' => true, 'rgxp' => 'datim', 'tl_class' => 'w50' ],
+            'eval'              => [ 'mandatory' => TRUE, 'datepicker' => TRUE, 'rgxp' => 'datim', 'tl_class' => 'w50' ],
             'sql'               => "int(10) unsigned NOT NULL default '0'",
         ],
         'browser' => [
@@ -165,21 +166,21 @@ $GLOBALS['TL_DCA']['tl_spambot'] = [
     ],
 ];
 
-class tl_spambot extends Backend
-{
+class tl_spambot extends Backend {
+
+    /*
+     * @var array()
+     */
     protected static $ModTyp = [];
 
     /**
      * Load data container
-     *
-     * @param DC_Table $dc
      */
-    public function loadDCA(DC_Table $dc)
-    {
+    public function loadDCA(DC_Table $dc): void {
+
         // edit / new record?
-        if (!$this->Input->get('act')) {
+        if (!$this->Input->get('act'))
             $GLOBALS['TL_DCA']['tl_spambot']['fields']['module']['options'][0] = 'Loaded';
-        }
 
         // load module list
         $rc = $this->Database->prepare('SELECT id,name,type,spambot_engines FROM tl_module WHERE type LIKE ?')->execute('SpamBot-%');
@@ -191,18 +192,12 @@ class tl_spambot extends Backend
         }
     }
 
+
     /**
      * Convert label
-     *
-     * @param array         $row
-     * @param string        $label
-     * @param DataContainer $dc
-     * @param array         $args
-     *
-     * @return array
      */
-    public function mkLabel($row, $label, DataContainer $dc, $args)
-    {
+    public function mkLabel(array $row, string $label, DataContainer $dc, array $args): array {
+
         // convert "typ"
         $args[4] = '<img class="list_icon_new" src="'.TL_SCRIPT_URL.'bundles/spambot/images/'.strtolower($args[4]).
                    '.png" title="'.$args[4].'" alt="'.$args[4].'">';
@@ -213,103 +208,63 @@ class tl_spambot extends Backend
     /**
      * Truncate entire table
      */
-    public function clearTab()
-    {
+    public function clearTab(): void {
         $this->Database->execute('TRUNCATE tl_spambot');
         $this->redirect(\Environment::get('script').'?do=SpamBot');
     }
 
     /**
      * Make "Check" icon
-     *
-     * @param array  $row
-     * @param string $href
-     * @param string $label
-     * @param string $title
-     * @param string $icon
-     * @param string $attributes
-     *
-     * @return string
      */
-    public function mkChkButton($row, $href, $label, $title, $icon, $attributes)
-    {
-        // check available data
-        if ('IP' === self::$ModTyp[$row['module']]) {
-            $ok = $row['ip'] ? true : false;
-        } else {
-            $ok = $row['mail'] ? true : false;
-        }
+    public function mkChkButton(array $row, string $href, string $label, string $title, string $icon, string $attributes): string {
+
+            // check available data
+        if ('IP' === self::$ModTyp[$row['module']])
+            $ok = $row['ip'] ? TRUE : FALSE;
+        else
+            $ok = $row['mail'] ? TRUE : FALSE;
 
         $href = 'id='.$row['id'].'&amp;key=check'.self::$ModTyp[$row['module']];
-        if (!($row['typ'] & (SpamBot::BLACKL | SpamBot::WHITEL | SpamBot::LOADED)) && $ok) {
+        if (!($row['typ'] & (SpamBot::BLACKL | SpamBot::WHITEL | SpamBot::LOADED)) && $ok)
             return '<a href="'.$this->addToUrl($href).'" title="'.specialchars($title).'"'.$attributes.'>'.
                    Image::getHtml($icon, $label).'</a> ';
-        }
 
         return Image::getHtml(str_replace('check', 'nocheck', $icon), $label);
     }
 
     /**
      * Get creation date
-     *
-     * @param int
-     * @param DC_Table $dc
-     *
-     * @return int
      */
-    public function getCreate($varValue, DC_Table $dc)
-    {
-        return !$varValue ? time() : $varValue;
+    public function getCreate(string $varValue, DC_Table $dc): string {
+        return !$varValue ? strval(time()) : $varValue;
     }
 
     /**
      * Get all available record types
-     *
-     * @param DC_Table $dc
-     *
-     * @return array
      */
-    public function getTypes(DC_Table $dc)
-    {
-        return array_slice(SpamBot::$Status, 1, count(SpamBot::$Status) - 2, true);
+    public function getTypes(DC_Table $dc): array {
+        return array_slice(SpamBot::$Status, 1, count(SpamBot::$Status) - 2, TRUE);
     }
 
     /**
      * Check IP address
-     *
-     * @param DC_Table $dc
-     *
-     * @return string
      */
-    public function checkIP(DC_Table $dc)
-    {
+    public function checkIP(DC_Table $dc): string {
         return self::_doCheck(SpamBot::TYP_IP, $dc->id);
     }
 
     /**
      * Check mail address
-     *
-     * @param DC_Table $dc
-     *
-     * @return string
      */
-    public function checkMail(DC_Table $dc)
-    {
+    public function checkMail(DC_Table $dc): string {
         return self::_doCheck(SpamBot::TYP_MAIL, $dc->id);
     }
 
     /**
      * Perform checking
-     *
-     * @param int function id
-     * @param int record id
-     * @param mixed $func
-     * @param mixed $id
-     *
-     * @return string
      */
-    private function _doCheck($func, $id)
-    {
+    private function _doCheck(int $func, int $id): string {
+
         // get module ID from page record
         $rec = $this->Database->prepare('SELECT ip,mail,module FROM tl_spambot WHERE id=?')->execute($id);
         $obj = new SpamBot($rec->module);
@@ -317,19 +272,18 @@ class tl_spambot extends Backend
         // clean URI
         $pi = $this->Input->get('xi');
         $pr = $this->Input->get('rc');
-        $uri = str_replace(['&rc=1', '&xi=1'], [null, null], Environment::get('request'));
+        $uri = str_replace(['&rc=1', '&xi=1'], [NULL, NULL], Environment::get('request'));
 
         // check data
         // error test IP
-        // $rc = $obj->callMods($func, '127.0.0.2', null, $pi + 1);
+        // $rc = $obj->callMods($func, '127.0.0.2', NULL, $pi + 1);
         $rc = $obj->callMods($func, $rec->ip, $rec->mail, $pi + 1);
         // do we perform a re-check?
         if ($pr && ($time = $this->Input->cookie('SpamBotRun'))) {
             $time = deserialize($time);
             ++$time['RUNS'];
-        } else {
+        } else
             $time = ['RUNS' => 1];
-        }
 
         // create output
         $style = [SpamBot::NOTFOUND => 'notfound',
@@ -339,8 +293,9 @@ class tl_spambot extends Backend
                   SpamBot::BLACKL   => 'blacklist',
                   SpamBot::LOADED   => 'loaded',
         ];
+
         $out = '<div id="tl_buttons">
-<a href="'.str_replace('&key='.(SpamBot::TYP_IP === $func ? 'checkIP' : 'checkMail'), null, $uri).'" class="header_back" title="'.
+<a href="'.str_replace('&key='.(SpamBot::TYP_IP === $func ? 'checkIP' : 'checkMail'), NULL, $uri).'" class="header_back" title="'.
 specialchars($GLOBALS['TL_LANG']['MSC']['backBT']).'" accesskey="b">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a>'.
 '</div><h2 class="sub_headline">';
         if (SpamBot::TYP_IP === $func) {
@@ -350,9 +305,8 @@ specialchars($GLOBALS['TL_LANG']['MSC']['backBT']).'" accesskey="b">'.$GLOBALS['
         }
         $out .= '</h2><table class="spambot_table"><tbody>';
         foreach ($rc as $name => $v) {
-            if (false === strpos($v[1], '<field')) {
+            if (FALSE === strpos($v[1], '<field'))
                 $v[1] .= '<br />';
-            }
             // save execution time
             $time[$name] += $v[2];
             $avg = round($time[$name] / $time['RUNS'], 3);
@@ -363,15 +317,14 @@ specialchars($GLOBALS['TL_LANG']['MSC']['backBT']).'" accesskey="b">'.$GLOBALS['
                         'title="'.SpamBot::$Status[$v[0]].'" alt="'.SpamBot::$Status[$v[0]].'">'.
                     '</td>'.
                     '<td class="spambot_td_'.$typ.'" style="width:240px">';
-            if (SpamBot::TYP_IP === $func) {
+            if (SpamBot::TYP_IP === $func)
                 $out .= sprintf($GLOBALS['SpamBot']['Engines'][$name]['CheckIP'], $rec->ip);
-            } else {
+            else
                 $out .= sprintf($GLOBALS['SpamBot']['Engines'][$name]['CheckMail'], $rec->mail);
-            }
             $out .= '</td>'.
                     '<td class="spambot_td_'.$typ.'">'.('Intern' === $name ? $v[1] : substr($v[1], strpos($v[1], ':') + 1)).
                     sprintf($GLOBALS['TL_LANG']['tl_spambot']['lab_time'], $v[2]).'<br />'.
-                    ($pr ? sprintf($GLOBALS['TL_LANG']['tl_spambot']['lab_avt'], $avg) : null).
+                    ($pr ? sprintf($GLOBALS['TL_LANG']['tl_spambot']['lab_avt'], $avg) : NULL).
                     '</td></tr>';
         }
         $out .= '</tbody></table>';

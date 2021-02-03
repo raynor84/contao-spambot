@@ -1,16 +1,18 @@
 <?php
+declare(strict_types=1);
 
 /*
  * sync*gw SpamBot Bundle
  *
- * @copyright  http://syncgw.com, 2013 - 2020
- * @author     Florian Daeumling, http://syncgw.com
+ * @copyright  https://syncgw.com, 2013 - 2021
+ * @author     Florian Daeumling, https://syncgw.com
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
 
 use Contao\Backend;
 use Contao\DataContainer;
 use Contao\DC_Table;
+use NotificationCenter\Util\String;
 
 $GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = [ 'tl_module_SpamBot', 'loadDCA' ];
 
@@ -27,7 +29,7 @@ $GLOBALS['TL_DCA']['tl_module']['palettes']['SpamBot-Mail'] = 'name,type;'.
 $GLOBALS['TL_DCA']['tl_module']['fields']['spambot_engines'] = [
     'label'         => &$GLOBALS['TL_LANG']['tl_module']['spambot_engines'],
     'inputType'     => 'checkboxWizard',
-    'eval'          => [ 'multiple' => true, 'submitOnChange' => true ],
+    'eval'          => [ 'multiple' => TRUE, 'submitOnChange' => TRUE ],
     'options'       => [],
     'sql'           => 'blob NULL',
 ];
@@ -44,7 +46,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['spambot_mod'] = [
 // redirection
 $GLOBALS['TL_DCA']['tl_module']['fields']['spambot_page'] = [
     'label'         => &$GLOBALS['TL_LANG']['tl_module']['spambot_page'],
-    'exclude'       => true,
+    'exclude'       => TRUE,
     'inputType'     => 'pageTree',
     'explanation'   => 'jumpTo',
     'eval'          => [ 'fieldType' => 'radio', 'tl_class' => 'clr' ],
@@ -54,7 +56,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['spambot_page'] = [
 // message only
 $GLOBALS['TL_DCA']['tl_module']['fields']['spambot_msg'] = [
     'label'         => &$GLOBALS['TL_LANG']['tl_module']['spambot_msg'],
-    'exclude'       => true,
+    'exclude'       => TRUE,
     'inputType'     => 'checkbox',
     'sql'           => 'tinyint(1) NOT NULL default \'0\'',
 ];
@@ -64,7 +66,7 @@ $GLOBALS['TL_DCA']['tl_module']['SpamBot']['spambot_intern'] =
     '{spambot_internal},spambot_internal_exp,spambot_internal_logspam,spambot_internal_logham;';
 $GLOBALS['TL_DCA']['tl_module']['fields']['spambot_internal_exp'] = [
     'label'         => &$GLOBALS['TL_LANG']['tl_module']['spambot_internal_exp'],
-    'exclude'       => true,
+    'exclude'       => TRUE,
     'inputType'     => 'text',
     'default'       => 2,
     'eval'          => [ 'maxlength' => 3, 'rgxp' => 'digit' ],
@@ -89,9 +91,9 @@ $GLOBALS['TL_DCA']['tl_module']['SpamBot']['spambot_spamhaus'] =
     '{spambot_spamhaus},spambot_spamhaus_mods;';
 $GLOBALS['TL_DCA']['tl_module']['fields']['spambot_spamhaus_mods'] = [
     'label'         => &$GLOBALS['TL_LANG']['tl_module']['spambot_spamhaus_mods'],
-    'exclude'       => true,
+    'exclude'       => TRUE,
     'inputType'     => 'checkbox',
-    'eval'          => [ 'multiple' => true ],
+    'eval'          => [ 'multiple' => TRUE ],
     'load_callback' => [[ 'tl_module_SpamBot', 'loadSH' ]],
     'sql'           => 'varchar(255) NOT NULL default \'\'',
 ];
@@ -101,7 +103,7 @@ $GLOBALS['TL_DCA']['tl_module']['SpamBot']['spambot_honeypot'] =
     '{spambot_honeypot},spambot_honeypot_key,spambot_honeypot_score;';
 $GLOBALS['TL_DCA']['tl_module']['fields']['spambot_honeypot_key'] = [
     'label'         => &$GLOBALS['TL_LANG']['tl_module']['spambot_honeypot_key'],
-    'exclude'       => true,
+    'exclude'       => TRUE,
     'inputType'     => 'text',
     'eval'          => ['minlength' => 12, 'maxlength' => 12, 'rgxp' => 'alpha'],
     'save_callback' => [[ 'tl_module_SpamBot', 'chkHoneypotKey' ]],
@@ -109,7 +111,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['spambot_honeypot_key'] = [
 ];
 $GLOBALS['TL_DCA']['tl_module']['fields']['spambot_honeypot_score'] = [
     'label'         => &$GLOBALS['TL_LANG']['tl_module']['spambot_honeypot_score'],
-    'exclude'       => true,
+    'exclude'       => TRUE,
     'inputType'     => 'text',
     'default'       => 25,
     'eval'          => [ 'maxlength' => 3, 'rgxp' => 'digit' ],
@@ -122,7 +124,7 @@ $GLOBALS['TL_DCA']['tl_module']['SpamBot']['spambot_stopforumspam'] =
     '{spambot_stopforumspam},spambot_stopforumspam_score;';
 $GLOBALS['TL_DCA']['tl_module']['fields']['spambot_stopforumspam_score'] = [
     'label'         => &$GLOBALS['TL_LANG']['tl_module']['spambot_stopforumspam_score'],
-    'exclude'       => true,
+    'exclude'       => TRUE,
     'inputType'     => 'text',
     'default'       => 95.5,
     'eval'          => [ 'maxlength' => 5, 'rgxp' => 'digit' ],
@@ -135,9 +137,9 @@ $GLOBALS['TL_DCA']['tl_module']['SpamBot']['spambot_sorbs'] =
     '{spambot_sorbs},spambot_sorbs_mods;';
 $GLOBALS['TL_DCA']['tl_module']['fields']['spambot_sorbs_mods'] = [
     'label'         => &$GLOBALS['TL_LANG']['tl_module']['spambot_sorbs_mods'],
-    'exclude'       => true,
+    'exclude'       => TRUE,
     'inputType'     => 'checkbox',
-    'eval'          => [ 'multiple' => true ],
+    'eval'          => [ 'multiple' => TRUE ],
     'load_callback' => [[ 'tl_module_SpamBot', 'loadSORBS' ]],
     'sql'           => 'varchar(255) NOT NULL default \'\'',
 ];
@@ -147,9 +149,9 @@ $GLOBALS['TL_DCA']['tl_module']['SpamBot']['spambot_blocklist'] =
     '{spambot_blocklist},spambot_blocklist_mods;';
 $GLOBALS['TL_DCA']['tl_module']['fields']['spambot_blocklist_mods'] = [
     'label'         => &$GLOBALS['TL_LANG']['tl_module']['spambot_blocklist_mods'],
-    'exclude'       => true,
+    'exclude'       => TRUE,
     'inputType'     => 'checkbox',
-    'eval'          => [ 'multiple' => true ],
+    'eval'          => [ 'multiple' => TRUE ],
     'load_callback' => [[ 'tl_module_SpamBot', 'loadBlocklist' ]],
     'sql'           => 'varchar(255) NOT NULL default \'\'',
 ];
@@ -159,9 +161,9 @@ $GLOBALS['TL_DCA']['tl_module']['SpamBot']['spambot_ahbl'] =
     '{spambot_ahbl},spambot_ahbl_mods;';
 $GLOBALS['TL_DCA']['tl_module']['fields']['spambot_ahbl_mods'] = [
     'label'         => &$GLOBALS['TL_LANG']['tl_module']['spambot_ahbl_mods'],
-    'exclude'       => true,
+    'exclude'       => TRUE,
     'inputType'     => 'checkbox',
-    'eval'          => [ 'multiple' => true ],
+    'eval'          => [ 'multiple' => TRUE ],
     'load_callback' => [[ 'tl_module_SpamBot', 'loadAHBL' ]],
     'sql'           => 'varchar(255) NOT NULL default \'\'',
 ];
@@ -171,7 +173,7 @@ $GLOBALS['TL_DCA']['tl_module']['SpamBot']['spambot_botscout'] =
     '{spambot_botscout},spambot_botscout_key,spambot_botscout_count;';
 $GLOBALS['TL_DCA']['tl_module']['fields']['spambot_botscout_key'] = [
     'label'         => &$GLOBALS['TL_LANG']['tl_module']['spambot_botscout_key'],
-    'exclude'       => true,
+    'exclude'       => TRUE,
     'inputType'     => 'text',
     'eval'          => [ 'minlength' => 15, 'maxlength' => 15 ],
     'save_callback' => [[ 'tl_module_SpamBot', 'chkBotScoutKey' ]],
@@ -179,7 +181,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['spambot_botscout_key'] = [
 ];
 $GLOBALS['TL_DCA']['tl_module']['fields']['spambot_botscout_count'] = [
     'label'         => &$GLOBALS['TL_LANG']['tl_module']['spambot_botscout_count'],
-    'exclude'       => true,
+    'exclude'       => TRUE,
     'inputType'     => 'text',
     'default'       => 5,
     'eval'          => [ 'maxlength' => 3, 'rgxp' => 'digit' ],
@@ -192,7 +194,7 @@ $GLOBALS['TL_DCA']['tl_module']['SpamBot']['spambot_fspamlist'] =
     '{spambot_fspamlist},spambot_fspamlist_key,spambot_fspamlist_count;';
 $GLOBALS['TL_DCA']['tl_module']['fields']['spambot_fspamlist_key'] = [
     'label'         => &$GLOBALS['TL_LANG']['tl_module']['spambot_fspamlist_key'],
-    'exclude'       => true,
+    'exclude'       => TRUE,
     'inputType'     => 'text',
     'eval'          => [ 'minlength' => 12, 'maxlength' => 15 ],
     'save_callback' => [[ 'tl_module_SpamBot', 'chkFSpamListKey' ]],
@@ -200,7 +202,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['spambot_fspamlist_key'] = [
 ];
 $GLOBALS['TL_DCA']['tl_module']['fields']['spambot_fspamlist_count'] = [
     'label'         => &$GLOBALS['TL_LANG']['tl_module']['spambot_fspamlist_count'],
-    'exclude'       => true,
+    'exclude'       => TRUE,
     'inputType'     => 'text',
     'default'       => 5,
     'eval'          => [ 'maxlength' => 3, 'rgxp' => 'digit' ],
@@ -215,30 +217,32 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['spambot_ipstack_countries'] = [
     'label'         => &$GLOBALS['TL_LANG']['tl_module']['spambot_ipstack_countries'],
     'inputType'     => 'select',
     'options'       => $this->getCountries(),
-    'eval'          => [ 'multiple' => true, 'size' => 8, 'tl_class' => 'w50 w50h', 'chosen' => true ],
+    'eval'          => [ 'multiple' => TRUE, 'size' => 8, 'tl_class' => 'w50 w50h', 'chosen' => TRUE ],
     'sql'           => 'blob NULL',
 ];
 
-class tl_module_SpamBot extends Backend
-{
-    protected $Engines;
+class tl_module_SpamBot extends Backend {
+
+    /*
+     *  Available engines
+     *  @var array
+     */
+    protected $_engines;
 
     /**
      * Load data container
-     *
-     * @param DC_Table $dc
      */
-    public function loadDCA(DC_Table $dc)
-    {
+    public function loadDCA(DC_Table $dc): void {
+
         $rc = $dc->Database->prepare('SELECT type,spambot_engines FROM tl_module WHERE id=?')->execute($dc->id);
         if (!$rc->spambot_engines) {
-            $this->Engines = [];
+            $this->_engines = [];
         } else {
-            $this->Engines = deserialize($rc->spambot_engines);
+            $this->_engines = deserialize($rc->spambot_engines);
         }
 
         // update palette
-        foreach ($this->Engines as $name) {
+        foreach ($this->_engines as $name) {
             $GLOBALS['TL_DCA']['tl_module']['palettes'][$rc->type] .=
                 $GLOBALS['TL_DCA']['tl_module']['SpamBot']['spambot_'.strtolower($name)];
         }
@@ -268,22 +272,16 @@ class tl_module_SpamBot extends Backend
 
         // it is required to save default, because only if default is changed value will be saved later
         $this->Database->prepare('UPDATE tl_module SET spambot_engines=? WHERE id=?')
-                        ->execute(serialize($this->Engines), $dc->id);
+                        ->execute(serialize($this->_engines), $dc->id);
     }
 
     /**
      * Load Spamhaus default values
-     *
-     * @param mixed         $varValue
-     * @param DataContainer $dc
-     *
-     * @return array
      */
-    public function loadSH($varValue, DataContainer $dc)
-    {
-        if ($varValue) {
+    public function loadSH(string $varValue, DataContainer $dc): string {
+
+        if ($varValue)
             return $varValue;
-        }
 
         // it is required to save default, because only if default is changed value will be saved
         $this->Database->prepare('UPDATE tl_module SET spambot_spamhaus_mods=? WHERE id=?')
@@ -294,17 +292,11 @@ class tl_module_SpamBot extends Backend
 
     /**
      * Load SORBS default values
-     *
-     * @param mixed         $varValue
-     * @param DataContainer $dc
-     *
-     * @return array
      */
-    public function loadSORBS($varValue, DataContainer $dc)
-    {
-        if ($varValue) {
+    public function loadSORBS(string $varValue, DataContainer $dc): string {
+
+        if ($varValue)
             return $varValue;
-        }
 
         // it is required to save default, because only if default is changed value will be saved
         $this->Database->prepare('UPDATE tl_module SET spambot_sorbs_mods=? WHERE id=?')
@@ -315,17 +307,11 @@ class tl_module_SpamBot extends Backend
 
     /**
      * Load Blocklist default values
-     *
-     * @param mixed         $varValue
-     * @param DataContainer $dc
-     *
-     * @return array
      */
-    public function loadBlocklist($varValue, DataContainer $dc)
-    {
-        if ($varValue) {
+    public function loadBlocklist(string $varValue, DataContainer $dc): string {
+
+        if ($varValue)
             return $varValue;
-        }
 
         // it is required to save default, because only if default is changed value will be saved
         $this->Database->prepare('UPDATE tl_module SET spambot_blocklist_mods=? WHERE id=?')
@@ -336,17 +322,11 @@ class tl_module_SpamBot extends Backend
 
     /**
      * Load AHBL default values
-     *
-     * @param mixed         $varValue
-     * @param DataContainer $dc
-     *
-     * @return array
      */
-    public function loadAHBL($varValue, DataContainer $dc)
-    {
-        if ($varValue) {
+    public function loadAHBL(string $varValue, DataContainer $dc): string {
+
+        if ($varValue)
             return $varValue;
-        }
 
         // it is required to save default, because only if default is changed value will be saved
         $this->Database->prepare('UPDATE tl_module SET spambot_ahbl_mods=? WHERE id=?')
@@ -357,28 +337,18 @@ class tl_module_SpamBot extends Backend
 
     /**
      * Check cache expiration
-     *
-     * @param string   $varValue
-     * @param DC_Table $dc
-     *
-     * @throws Exception
-     *
-     * @return string
      */
-    public function chkExpiration($varValue, DC_Table $dc)
-    {
-        if (in_array('Intern', $this->Engines, true)) {
-            if (!strlen($varValue)) {
+    public function chkExpiration(string $varValue, DC_Table $dc): string {
+
+        if (in_array('Intern', $this->_engines, TRUE)) {
+            if (!strlen($varValue))
                 throw new Exception($GLOBALS['TL_LANG']['tl_module']['spambot_internal_exp'][1]);
-            }
-            if ($varValue < 1) {
+            if ($varValue < 1)
                 throw new Exception($GLOBALS['TL_LANG']['tl_module']['spambot_val0'].'<br />'.
                                     $GLOBALS['TL_LANG']['tl_module']['spambot_internal_exp'][1]);
-            }
-            if ($varValue > 365) {
+            if ($varValue > 365)
                 throw new Exception($GLOBALS['TL_LANG']['tl_module']['spambot_val365'].'<br />'.
                                     $GLOBALS['TL_LANG']['tl_module']['spambot_internal_exp'][1]);
-            }
         }
 
         return $varValue;
@@ -386,20 +356,12 @@ class tl_module_SpamBot extends Backend
 
     /**
      * Check Honeypot API key
-     *
-     * @param string   $varValue
-     * @param DC_Table $dc
-     *
-     * @throws Exception
-     *
-     * @return string
      */
-    public function chkHoneypotKey($varValue, DC_Table $dc)
-    {
-        if (in_array('Honeypot', $this->Engines, true)) {
-            if (!strlen($varValue)) {
+    public function chkHoneypotKey(string $varValue, DC_Table $dc): String {
+
+        if (in_array('Honeypot', $this->_engines, TRUE)) {
+            if (!strlen($varValue))
                 throw new Exception($GLOBALS['TL_LANG']['tl_module']['spambot_honeypot_key'][1]);
-            }
         }
 
         return $varValue;
@@ -407,20 +369,12 @@ class tl_module_SpamBot extends Backend
 
     /**
      * Check Honeypot score value
-     *
-     * @param string   $varValue
-     * @param DC_Table $dc
-     *
-     * @throws Exception
-     *
-     * @return string
      */
-    public function chkHoneypotScore($varValue, DC_Table $dc)
-    {
-        if (in_array('Honeypot', $this->Engines, true)) {
-            if (!strlen($varValue)) {
+    public function chkHoneypotScore(string $varValue, DC_Table $dc): string {
+
+        if (in_array('Honeypot', $this->_engines, TRUE)) {
+            if (!strlen($varValue))
                 throw new Exception($GLOBALS['TL_LANG']['tl_module']['spambot_honeypot_score'][1]);
-            }
         }
 
         return $varValue;
@@ -428,20 +382,11 @@ class tl_module_SpamBot extends Backend
 
     /**
      * Check StopForumSpam score value
-     *
-     * @param string   $varValue
-     * @param DC_Table $dc
-     *
-     * @throws Exception
-     *
-     * @return string
      */
-    public function chkStopForumSpamScore($varValue, DC_Table $dc)
-    {
-        if (in_array('StopForumSpam', $this->Engines, true)) {
-            if (!strlen($varValue)) {
+    public function chkStopForumSpamScore(string $varValue, DC_Table $dc): string {
+        if (in_array('StopForumSpam', $this->_engines, TRUE)) {
+            if (!strlen($varValue))
                 throw new Exception($GLOBALS['TL_LANG']['tl_module']['spambot_stopforumspam_score'][1]);
-            }
         }
 
         return $varValue;
@@ -449,20 +394,12 @@ class tl_module_SpamBot extends Backend
 
     /**
      * Check BotScout API key
-     *
-     * @param string   $varValue
-     * @param DC_Table $dc
-     *
-     * @throws Exception
-     *
-     * @return string
      */
-    public function chkBotScoutKey($varValue, DC_Table $dc)
-    {
-        if (in_array('BotScout', $this->Engines, true)) {
-            if (!strlen($varValue)) {
+    public function chkBotScoutKey(string $varValue, DC_Table $dc): string {
+
+        if (in_array('BotScout', $this->_engines, TRUE)) {
+            if (!strlen($varValue))
                 throw new Exception($GLOBALS['TL_LANG']['tl_module']['spambot_botscout_key'][1]);
-            }
         }
 
         return $varValue;
@@ -470,20 +407,12 @@ class tl_module_SpamBot extends Backend
 
     /**
      * Check BotScout score value
-     *
-     * @param string   $varValue
-     * @param DC_Table $dc
-     *
-     * @throws Exception
-     *
-     * @return string
      */
-    public function chkBotScoutScore($varValue, DC_Table $dc)
-    {
-        if (in_array('BotScout', $this->Engines, true)) {
-            if (!strlen($varValue)) {
+    public function chkBotScoutScore(string $varValue, DC_Table $dc): string {
+
+        if (in_array('BotScout', $this->_engines, TRUE)) {
+            if (!strlen($varValue))
                 throw new Exception($GLOBALS['TL_LANG']['tl_module']['spambot_botscout_score'][1]);
-            }
         }
 
         return $varValue;
@@ -491,20 +420,12 @@ class tl_module_SpamBot extends Backend
 
     /**
      * Check FSpamList API key
-     *
-     * @param string   $varValue
-     * @param DC_Table $dc
-     *
-     * @throws Exception
-     *
-     * @return string
      */
-    public function chkFSpamListKey($varValue, DC_Table $dc)
-    {
-        if (in_array('FSpamList', $this->Engines, true)) {
-            if (!strlen($varValue)) {
+    public function chkFSpamListKey(string $varValue, DC_Table $dc): string {
+
+        if (in_array('FSpamList', $this->_engines, TRUE)) {
+            if (!strlen($varValue))
                 throw new Exception($GLOBALS['TL_LANG']['tl_module']['spambot_fspamlist_key'][1]);
-            }
         }
 
         return $varValue;
@@ -512,22 +433,18 @@ class tl_module_SpamBot extends Backend
 
     /**
      * Check FSpamList score value
-     *
-     * @param string   $varValue
-     * @param DC_Table $dc
-     *
-     * @throws Exception
-     *
-     * @return string
      */
-    public function chkFSpamListScore($varValue, DC_Table $dc)
-    {
-        if (in_array('FSpamList', $this->Engines, true)) {
-            if (!strlen($varValue)) {
+    public function chkFSpamListScore(string $varValue, DC_Table $dc): string {
+
+        if (in_array('FSpamList', $this->_engines, TRUE)) {
+            if (!strlen($varValue))
                 throw new Exception($GLOBALS['TL_LANG']['tl_module']['spambot_fspamlist_score'][1]);
-            }
         }
 
         return $varValue;
     }
+
 }
+
+
+?>

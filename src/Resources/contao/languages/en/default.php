@@ -3,8 +3,8 @@
 /*
  * sync*gw SpamBot Bundle
  *
- * @copyright  http://syncgw.com, 2013 - 2020
- * @author     Florian Daeumling, http://syncgw.com
+ * @copyright  https://syncgw.com, 2013 - 2021
+ * @author     Florian Daeumling, https://syncgw.com
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
 
@@ -38,3 +38,5 @@ $GLOBALS['TL_LANG']['SpamBot']['SpamIP']['notfound'] = '%s: No match in loaded r
 // SpamBotCron.php
 $GLOBALS['TL_LANG']['SpamBot']['cron']['rec'] = '%d addresses deleted for module "%s"';
 $GLOBALS['TL_LANG']['SpamBot']['cron']['mod'] = '%d unassigned entries deleted';
+
+?>

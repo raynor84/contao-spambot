@@ -3,8 +3,8 @@
 /*
  * sync*gw SpamBot Bundle
  *
- * @copyright  http://syncgw.com, 2013 - 2020
- * @author     Florian Daeumling, http://syncgw.com
+ * @copyright  https://syncgw.com, 2013 - 2021
+ * @author     Florian Daeumling, https://syncgw.com
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
 
@@ -22,16 +22,18 @@ class SpamBotCall extends Frontend {
      */
     public function __construct() {
         parent::__construct();
-        define('BE_USER_LOGGED_IN', false);
-        define('FE_USER_LOGGED_IN', false);
+        if (!defined('BE_USER_LOGGED_IN'))
+            define('BE_USER_LOGGED_IN', FALSE);
+        if (!defined('FE_USER_LOGGED_IN'))
+            define('FE_USER_LOGGED_IN', FALSE);
     }
 
     /**
      * Run the controller.
      *
-     * @return array (SpamBot::Status, status message)
+     * @return string (SpamBot::Status, status message)
      */
-    public function run() {
+    public function run(): string {
         $this->loadLanguageFile('default');
 
         // class/file to call
@@ -39,21 +41,20 @@ class SpamBotCall extends Frontend {
         // function to call
         $func = $_GET['Func'];
         // module ID
-        $mod = $_GET['Mod'];
+        $mod  = $_GET['Mod'];
         // extended information
         $extinfo = $_GET['ExtInfo'];
         // ip address
-        $ip = base64_decode($_GET['IP'], true);
+        $ip = base64_decode($_GET['IP'], TRUE);
         // mail address
-        $mail = base64_decode($_GET['Mail'], true);
+        $mail = base64_decode($_GET['Mail'], TRUE);
 
         if (!$class)
             return 'Not allowed';
 
         // include our engine class
-        require TL_ROOT.'/vendor/syncgw/contao-spambot/src/Module/engines/'.$class.'.php';
+        require_once TL_ROOT.'/vendor/syncgw/contao-spambot/src/Module/engines/'.$class.'.php';
 
-        $class = 'syncgw\SpamBotBundle\Module\SpamBot'.$class;
         $obj = new $class($mod);
         list($stat, $msg) = $obj->check($func, $ip, $mail);
         // append extended information?

@@ -3,8 +3,8 @@
 /*
  * sync*gw SpamBot Bundle
  *
- * @copyright  http://syncgw.com, 2013 - 2020
- * @author     Florian Daeumling, http://syncgw.com
+ * @copyright  https://syncgw.com, 2013 - 2021
+ * @author     Florian Daeumling, https://syncgw.com
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
 
@@ -19,9 +19,9 @@ $GLOBALS['TL_LANG']['tl_module']['spambot_engines'] = [' ',
 $GLOBALS['TL_LANG']['tl_module']['spambot_mod'] = ['Optimierung',
          'SpamBot fragt die Anbieter parallel ab. Wenn Sie mehr als einen Anbieter ausge&auml;hlt haben, dann k&ouml;nnen '.
          'Sie hier angeben, wie die Abfrage optimiert wird:<br>'.
-         '<strong>Geschwindigkeit</strong> - Erstes Ergebnis von irgend einem Anbieter z&auml;hlt.<br>'.
-         '<strong>Schlechteste</strong> - Erste "Spam" oderr "BlackList" von irgend einem Anbietern in der Liste.<br>'.
-         '<strong>Beste</strong>  - Erste "Ham" oder "WhiteList" von irgend einem Anbietern in der Liste.', ];
+         '&raquo;Geschwindigkeit&laquo; - Erstes Ergebnis von irgend einem Anbieter z&auml;hlt.<br>'.
+         '&raquo;Schlechteste&laquo;    - Erste "Spam" oderr "BlackList" von irgend einem Anbietern in der Liste.<br>'.
+         '&raquo;Beste&laquo;           - Erste "Ham" oder "WhiteList" von irgend einem Anbietern in der Liste.', ];
 $GLOBALS['TL_LANG']['tl_module']['spambot_mod_first'] = 'Geschwindigkeit';
 $GLOBALS['TL_LANG']['tl_module']['spambot_mod_spam'] = 'Schlechteste';
 $GLOBALS['TL_LANG']['tl_module']['spambot_mod_ham'] = 'Beste';
@@ -36,7 +36,7 @@ $GLOBALS['TL_LANG']['tl_module']['spambot_msg'] = ['Meldung zus&auml;tzlich auf 
          'Wenn Sie keine Umleitungsseite angegeben haben, dann gibt SpamBot eine Meldung aus. '.
          'Wenn diese Option nicht aktiv ist, dann wird die komplette Seite bis auf die SpamBot Meldung gel&ouml;scht; '.
          'wenn diese Option aktiv ist, dann wird die SpamBot Meldung nur '.
-         '<strong>zus&auml;tzlich</strong> ausgegeben.', ];
+         '&eaquo;zus&auml;tzlich&laquo; ausgegeben.', ];
 
 // Intern
 $GLOBALS['TL_LANG']['tl_module']['spambot_internal'] = 'Interne Konfiguration';
@@ -121,3 +121,5 @@ $GLOBALS['TL_LANG']['tl_module']['spambot_fspamlist_count'] = ['Schwelle',
 $GLOBALS['TL_LANG']['tl_module']['spambot_ipstack'] = 'IPStack Konfiguration';
 $GLOBALS['TL_LANG']['tl_module']['spambot_ipstack_countries'] = ['WhiteList L&auml;nder',
          'W&auml;hlen Sie die L&auml;nder aus, bei denen die IP-Adresse des Besuchers immer als "Ham" eingestuft wird.', ];
+
+?>

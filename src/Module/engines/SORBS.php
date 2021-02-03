@@ -1,16 +1,25 @@
 <?php
+declare(strict_types=1);
 
 /*
  * sync*gw SpamBot Bundle
  *
- * @copyright  http://syncgw.com, 2013 - 2020
- * @author     Florian Daeumling, http://syncgw.com
+ * @copyright  https://syncgw.com, 2013 - 2021
+ * @author     Florian Daeumling, https://syncgw.com
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
 
 use syncgw\SpamBotBundle\Module\SpamBot;
 
-class SpamBotSORBS extends SpamBot {
+class SORBS extends SpamBot {
+    /*
+     * @var string
+     */
     protected $Name = 'SORBS';
-    protected $Fields = ['spambot_sorbs_mods' => 1];
+    /*
+     * @var array
+     */
+    protected $Fields = [ 'spambot_sorbs_mods' => 1 ];
 }
+
+?>
