@@ -22,7 +22,7 @@ class Plugin implements BundlePluginInterface {
     public function getBundles(ParserInterface $parser): BundleConfig {
         return [
             BundleConfig::create(SpamBotBundle::class)
-                ->setLoadAfter([ContaoCoreBundle::class]),
+                ->setLoadAfter(ContaoCoreBundle::class),
         ];
     }
 
