@@ -19,10 +19,10 @@ use syncgw\SpamBotBundle\SpamBotBundle;
 
 class Plugin implements BundlePluginInterface {
 
-    public function getBundles(ParserInterface $parser): BundleConfig {
+    public function getBundles(ParserInterface $parser): array {
         return [
             BundleConfig::create(SpamBotBundle::class)
-                ->setLoadAfter(ContaoCoreBundle::class),
+                ->setLoadAfter([ ContaoCoreBundle::class ]),
         ];
     }
 
