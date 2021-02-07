@@ -12,7 +12,6 @@ declare(strict_types=1);
 use Contao\Backend;
 use Contao\DataContainer;
 use Contao\DC_Table;
-use NotificationCenter\Util\String;
 
 $GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = [ 'tl_module_SpamBot', 'loadDCA' ];
 
@@ -357,7 +356,7 @@ class tl_module_SpamBot extends Backend {
     /**
      * Check Honeypot API key
      */
-    public function chkHoneypotKey(string $varValue, DC_Table $dc): String {
+    public function chkHoneypotKey(string $varValue, DC_Table $dc): string {
 
         if (in_array('Honeypot', $this->_engines, TRUE)) {
             if (!strlen($varValue))
