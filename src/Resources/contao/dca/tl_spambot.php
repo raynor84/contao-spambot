@@ -216,7 +216,7 @@ class tl_spambot extends Backend {
     /**
      * Make "Check" icon
      */
-    public function mkChkButton(array $row, string $href, string $label, string $title, string $icon, string $attributes): string {
+    public function mkChkButton(array $row, $href, string $label, string $title, string $icon, string $attributes): string {
 
             // check available data
         if ('IP' === self::$ModTyp[$row['module']])
