@@ -356,10 +356,10 @@ class tl_module_SpamBot extends Backend {
     /**
      * Check Honeypot API key
      */
-    public function chkHoneypotKey(string $varValue, DC_Table $dc): string {
+    public function chkHoneypotKey($varValue, DC_Table $dc): string {
 
         if (in_array('Honeypot', $this->_engines, TRUE)) {
-            if (!strlen($varValue))
+            if (!isset($varValue) || !strlen($varValue))
                 throw new Exception($GLOBALS['TL_LANG']['tl_module']['spambot_honeypot_key'][1]);
         }
 
@@ -369,10 +369,10 @@ class tl_module_SpamBot extends Backend {
     /**
      * Check Honeypot score value
      */
-    public function chkHoneypotScore(string $varValue, DC_Table $dc): string {
+    public function chkHoneypotScore($varValue, DC_Table $dc): string {
 
         if (in_array('Honeypot', $this->_engines, TRUE)) {
-            if (!strlen($varValue))
+            if (!isset($varValue) || !strlen($varValue))
                 throw new Exception($GLOBALS['TL_LANG']['tl_module']['spambot_honeypot_score'][1]);
         }
 
@@ -382,9 +382,9 @@ class tl_module_SpamBot extends Backend {
     /**
      * Check StopForumSpam score value
      */
-    public function chkStopForumSpamScore(string $varValue, DC_Table $dc): string {
+    public function chkStopForumSpamScore($varValue, DC_Table $dc): string {
         if (in_array('StopForumSpam', $this->_engines, TRUE)) {
-            if (!strlen($varValue))
+            if (!isset($varValue) || !strlen($varValue))
                 throw new Exception($GLOBALS['TL_LANG']['tl_module']['spambot_stopforumspam_score'][1]);
         }
 
@@ -394,10 +394,10 @@ class tl_module_SpamBot extends Backend {
     /**
      * Check BotScout API key
      */
-    public function chkBotScoutKey(string $varValue, DC_Table $dc): string {
+    public function chkBotScoutKey($varValue, DC_Table $dc): string {
 
         if (in_array('BotScout', $this->_engines, TRUE)) {
-            if (!strlen($varValue))
+            if (!isset($varValue) || !strlen($varValue))
                 throw new Exception($GLOBALS['TL_LANG']['tl_module']['spambot_botscout_key'][1]);
         }
 
@@ -407,10 +407,10 @@ class tl_module_SpamBot extends Backend {
     /**
      * Check BotScout score value
      */
-    public function chkBotScoutScore(string $varValue, DC_Table $dc): string {
+    public function chkBotScoutScore($varValue, DC_Table $dc): string {
 
         if (in_array('BotScout', $this->_engines, TRUE)) {
-            if (!strlen($varValue))
+            if (!isset($varValue) || !strlen($varValue))
                 throw new Exception($GLOBALS['TL_LANG']['tl_module']['spambot_botscout_score'][1]);
         }
 
@@ -420,10 +420,10 @@ class tl_module_SpamBot extends Backend {
     /**
      * Check FSpamList API key
      */
-    public function chkFSpamListKey(string $varValue, DC_Table $dc): string {
+    public function chkFSpamListKey($varValue, DC_Table $dc): string {
 
         if (in_array('FSpamList', $this->_engines, TRUE)) {
-            if (!strlen($varValue))
+            if (!isset($varValue) || !strlen($varValue))
                 throw new Exception($GLOBALS['TL_LANG']['tl_module']['spambot_fspamlist_key'][1]);
         }
 
@@ -433,10 +433,10 @@ class tl_module_SpamBot extends Backend {
     /**
      * Check FSpamList score value
      */
-    public function chkFSpamListScore(string $varValue, DC_Table $dc): string {
+    public function chkFSpamListScore($varValue, DC_Table $dc): string {
 
         if (in_array('FSpamList', $this->_engines, TRUE)) {
-            if (!strlen($varValue))
+            if (!isset($varValue) || !strlen($varValue))
                 throw new Exception($GLOBALS['TL_LANG']['tl_module']['spambot_fspamlist_score'][1]);
         }
 
