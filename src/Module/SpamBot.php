@@ -164,7 +164,7 @@ class SpamBot extends System {
                 if ($info)
                     $end[$name] = microtime(TRUE);
                 // validate return value
-                if (FALSE === $r) {
+                if ($r === FALSE) {
                     // simualte not found on error
                     $rc[$name] = [self::NOTFOUND, $name.': '.$this->ErrMsg, 0];
                     fclose($hd[$name]);
@@ -172,7 +172,7 @@ class SpamBot extends System {
                     $r = NULL;
                 }
                 // any valid response
-                if (!strlen($r))
+                if (is_null($r) || !strlen($r))
                     continue;
 
                 // check wait mode
