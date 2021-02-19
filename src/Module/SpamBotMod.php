@@ -56,7 +56,7 @@ class SpamBotMod extends SpamBot {
         $parm = explode('::', $strTag);
         // are we responsible?
         if ('spambot' !== strtolower($parm[0]))
-            return FALSE;
+            return NULL;
 
         // get information
         if (!is_array($arr = deserialize(base64_decode($this->Input->cookie('SpamBot'), TRUE))))
