@@ -51,7 +51,7 @@ class SpamBotMod extends SpamBot {
      *
      * @return string replacement
      */
-    public function replaceInsertTag(string $strTag): string {
+    public function replaceInsertTag(string $strTag) {
 
         $parm = explode('::', $strTag);
         // are we responsible?
