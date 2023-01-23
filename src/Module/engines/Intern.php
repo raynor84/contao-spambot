@@ -30,16 +30,19 @@ class Intern extends SpamBot {
     public function check(int $typ, string $ip, string $mail): array  {
 
         // check for BlackList and WhiteList entries
+        $checkTypeBlackList = dechex(SpamBot::BLACKL);
+        $checkTypeWhiteList = dechex(SpamBot::WHITEL);
+        
         // to test backlist, add netmask 127.0.0.1/32 with type blacklist
         if (SpamBot::TYP_IP === $typ) {
-            $rc = $this->Db->prepare('SELECT ip,typ FROM tl_spambot WHERE module=? AND typ & 0x%x')->execute($this->modID, SpamBot::BLACKL | SpamBot::WHITEL);
+            $rc = $this->Db->prepare('SELECT ip,typ FROM tl_spambot WHERE module=? AND (typ=? OR typ=?)')->execute($this->modID, $checkTypeBlackList, $checkTypeWhiteList );
             while ($rc->next()) {
                 if (self::_matchNW($ip, $rc->ip))
                     return [$rc->typ, sprintf($GLOBALS['TL_LANG']['SpamBot']['Intern']['ip'], $this->Name, $rc->ip)];
             }
         } else {
             // check for BlackList and WhiteList entries
-            $rc = $this->Db->prepare('SELECT mail,typ FROM tl_spambot WHERE module=? AND typ & 0x%x')->execute($this->modID, SpamBot::BLACKL | SpamBot::WHITEL);
+            $rc = $this->Db->prepare('SELECT mail,typ FROM tl_spambot WHERE module=? AND (typ=? OR typ=?)')->execute($this->modID, $checkTypeBlackList, $checkTypeWhiteList);
             while ($rc->next()) {
                 if (preg_match('/'.$rc->mail.'/', $mail))
                     return [$rc->typ, sprintf($GLOBALS['TL_LANG']['SpamBot']['Intern']['mail'], $this->Name, $rc->mail)];
