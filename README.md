@@ -50,7 +50,7 @@ Zugriff generell für ausgewählte Länder erlauben.
 * Über einen neuen Menüpunkt im BackEnd (unterhalb der Benutzerverwaltung) können sie zusätzliche IP Adressen oder IP Bereiche oder E-Mail Adressen in eine **BlackList** oder **WhiteList** eintragen.
 * Nach der Prüfung der IP Adresse stehen Ihnen in allen Templates folgende **InsertTags** zur Verfügung:
   * `{{SpamBot::clientIP}}` IP Adresse die geprüft wurde.
-  * `{{SpamBot::Typ}}`´Spam Typ.
+  * `{{SpamBot::Typ}}` Spam Typ.
   * `{{SpamBot::Engine}}` Spam Provider Name (ggf. mit Link).
   * `{{SpamBot::Status}}` Statusmeldung.
 
