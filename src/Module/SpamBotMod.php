@@ -30,7 +30,7 @@ class SpamBotMod extends SpamBot {
      *
      * @return string content
      */
-    public function clearTemplate(string $strContent, string $strTemplate): string {
+    public function clearTemplate(string $strContent, $strTemplate): string {
 
         $str = [];
         if ($GLOBALS['SpamBot']['Catch'] & (SpamBot::SPAM | SpamBot::BLACKL) && 'mod_article' === $strTemplate) {
