@@ -55,9 +55,11 @@ class SpamBotIP extends Module {
         ];
         $this->setCookie('SpamBot', base64_encode(serialize($v)), 0);
 
-        if ($obj->spambot_page)
-            $this->redirectToFrontendPage($obj->spambot_page);
-        else {
+        if ($obj->spambot_page) {
+             $pageModel = PageModel::findById($obj->spambot_page);
+            Controller::redirect($pageModel->getAbsoluteUrl());
+        
+        } else {
             // set flag for SpamBot::clearTemplate()
             $GLOBALS['SpamBot']['Catch'] = !$obj->spambot_msg ? $ptyp : NULL;
             // make data available for template processing
