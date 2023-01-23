@@ -61,7 +61,7 @@ Zugriff generell für ausgewählte Länder erlauben.
   * Je nachdem welche / wie viele Provider sie bei der Prüfung einbinden, kann sich die Latenzzeit der Seite verlängern. Durch das Einbinden eines Moduls z.B. nur auf der Registrierungsseite und/oder der Kontaktseite werden alle anderen Seiten schneller angezeigt.
   * Die Verwendung mehrerer Seitenmodule bietet ihnen die Möglichkeit in einem mehrsprachigen Internetauftritt auf eine an die Sprache angepasste Seite um zu lenken.
   * Sie können spezielle Seiten z.B. in einem Intranetauftritt durch die Verwendung von **BlackList** Einträgen nur für bestimmte Benutzer frei schalten (oder ausschließen).
-* Sie können **SpamBot-Mail** für jedes beliebige Formular verwenden - denken Sie nur daran, das Modul am Anfang der Seite mit einzubauen.
+* Sie können **SpamBot-Mail** für jedes beliebige Formular verwenden - denken Sie nur daran, das Modul am Anfang der Seite mit einzubauen und im Formular das Eingabefeld für die E-Mail auch die Eingabeprüfung E-Mail zuzuweisen.
 
 **Testen**
 
@@ -140,7 +140,7 @@ Allow access for selected countries.
   * Depending on which / how many provider you want to use latency time for displaying pages are extended. If you include module e.g. only on registration page and/or on contact page all other pages will be displayed faster.
   * If you use a Internet site with multi-language support you may define multiple Frontend modules with a a language specific redirection page.
   * With this plugin you may lock specific pages from being displayed (in your intranet) using the **BlackList** or allow only specific visitors to see these pages using **WhiteList**.
-* You may use **SpamBot-Mail** in any form of your choice. Please don't forget to include modul at top of your page.
+* You may use **SpamBot-Mail** in any form of your choice. Please don't forget to include modul at top of your page and in your Forms to configure the Inputfield E-Mail with the Configuration check for E-Mails.
 
 **Testing**
 
