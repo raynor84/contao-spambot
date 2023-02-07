@@ -12,6 +12,8 @@ declare(strict_types=1);
 namespace syncgw\SpamBotBundle\Module;
 
 use Contao\Module;
+use Contao\PageModel;
+use Contao\Controller;
 
 class SpamBotIP extends Module {
 
